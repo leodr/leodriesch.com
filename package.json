@@ -1,15 +1,20 @@
 {
-  "name": "leodriesch.com",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "next": "10.0.2",
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
-  }
+    "name": "leodriesch.com",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "build": "next build",
+        "dev": "next dev",
+        "format": "prettier . --write --ignore-path .gitignore",
+        "start": "next start"
+    },
+    "dependencies": {
+        "next": "10.0.2",
+        "react": "17.0.1",
+        "react-dom": "17.0.1"
+    },
+    "devDependencies": {
+        "prettier": "^2.1.2",
+        "prettier-plugin-packagejson": "^2.2.7"
+    }
 }
