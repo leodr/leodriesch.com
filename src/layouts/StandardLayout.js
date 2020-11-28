@@ -1,4 +1,5 @@
 import { Transition } from "@headlessui/react"
+import { Logo } from "components/Logo"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -98,11 +99,7 @@ export function StandardLayout({
                                             <span className="sr-only">
                                                 Workflow
                                             </span>
-                                            <img
-                                                className="h-8 w-auto sm:h-10"
-                                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                                alt=""
-                                            />
+                                            <Logo className="text-indigo-600 w-10 h-10" />
                                         </a>
                                     </Link>
                                     <div className="-mr-2 flex items-center md:hidden">
