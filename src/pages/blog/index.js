@@ -1,59 +1,15 @@
 import { BlogCard } from "components/BlogCard"
 import { BlogGrid } from "components/BlogGrid"
-import { ProjectCard } from "components/ProjectCard"
-import { SectionHeader } from "components/SectionHeader"
 import { StandardLayout } from "layouts/StandardLayout"
-import Link from "next/link"
 
-export default function HomePage() {
+export default function BlogPage() {
     return (
         <>
-            <div className="mt-16 mb-4">
-                <SectionHeader
-                    title="Projects"
-                    headline="What I'm Working On"
-                    subHeadline={
-                        <>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Ipsa libero labore natus atque, ducimus sed.
-                        </>
-                    }
-                />
-            </div>
-
-            <ProjectCard
-                title="Tired of the same old Messenger?"
-                subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
-                href="/projects/bla"
-                color="purple"
-                imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14656091/media/1d74c2c5dc6a875f457912fa63378871.jpg"
-            />
-
-            <ProjectCard
-                title="Mobile banking reimagined"
-                subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
-                href="/projects/bla"
-                color="gray"
-                imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14607162/media/be69c5101757a823d147ea315e2830b4.jpg"
-            />
-
-            <div className="relative bg-gray-50 pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
+            <div className="relative bg-gray-50 pb-20 px-4 sm:px-6 lg:pt-12 lg:pb-28 lg:px-8">
                 <div className="absolute inset-0">
                     <div className="bg-white h-1/3 sm:h-2/3" />
                 </div>
                 <div className="relative max-w-7xl mx-auto">
-                    <SectionHeader
-                        title="Blog"
-                        headline="What I'm Thinking About"
-                        subHeadline={
-                            <>
-                                Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Ipsa libero labore natus
-                                atque, ducimus sed.
-                            </>
-                        }
-                    />
-
                     <BlogGrid>
                         <BlogCard
                             category="Article"
@@ -109,23 +65,10 @@ export default function HomePage() {
     )
 }
 
-HomePage.getLayout = (page) => (
+BlogPage.getLayout = (page) => (
     <StandardLayout
-        headline={
-            <>
-                <div className="flex justify-center mb-6">
-                    <img
-                        src="https://avatars1.githubusercontent.com/u/39763575?s=460&u=01a1ae18c167cc4a6151db80befa333dd84975c5&v=4"
-                        alt=""
-                        className="w-24 h-24 rounded-full shadow-lg"
-                    />
-                </div>
-                <span className="block xl:inline">Hi, I'm</span>
-                <span className="block text-indigo-600 xl:inline">
-                    {" Leo Driesch!"}
-                </span>
-            </>
-        }
+        pageTitle="Blog"
+        headline="What I'm Thinking About"
         subHeadline={
             <>
                 Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
@@ -134,20 +77,21 @@ HomePage.getLayout = (page) => (
             </>
         }
         actions={
-            <div className="sm:flex sm:justify-center">
-                <div className="rounded-md shadow">
-                    <Link href="/projects">
-                        <a className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
-                            Explore projects
-                        </a>
-                    </Link>
-                </div>
-                <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                    <Link href="/blog">
-                        <a className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
-                            Read blog
-                        </a>
-                    </Link>
+            <div className="flex justify-center mt-8 w-full">
+                <div className="relative" style={{ width: 480 }}>
+                    <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        className="block w-full py-3 pr-24 text-base rounded-md placeholder-gray-500 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300"
+                        placeholder="Search through articles with Google"
+                    />
+                    <button
+                        type="button"
+                        className="absolute top-1/2 transform -translate-y-1/2 right-1 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Search
+                    </button>
                 </div>
             </div>
         }

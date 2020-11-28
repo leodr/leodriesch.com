@@ -1,0 +1,40 @@
+import { ProjectCard } from "components/ProjectCard"
+import { StandardLayout } from "layouts/StandardLayout"
+
+export default function ProjectsPage() {
+    return (
+        <div className="py-16">
+            <ProjectCard
+                title="Tired of the same old Messenger?"
+                subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
+                href="/projects/bla"
+                color="purple"
+                imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14656091/media/1d74c2c5dc6a875f457912fa63378871.jpg"
+            />
+
+            <ProjectCard
+                title="Mobile banking reimagined"
+                subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
+                href="/projects/bla"
+                color="gray"
+                imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14607162/media/be69c5101757a823d147ea315e2830b4.jpg"
+            />
+        </div>
+    )
+}
+
+ProjectsPage.getLayout = (page) => (
+    <StandardLayout
+        pageTitle="Projects"
+        headline="What I'm Working On"
+        subHeadline={
+            <>
+                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
+                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
+                fugiat aliqua.
+            </>
+        }
+    >
+        {page}
+    </StandardLayout>
+)
