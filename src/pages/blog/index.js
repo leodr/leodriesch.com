@@ -72,9 +72,8 @@ BlogPage.getLayout = (page) => (
         headline="What I'm Thinking About"
         subHeadline={
             <>
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua.
+                I write about JavaScript, my workflow and any crazy idea I might
+                get while showering.
             </>
         }
         actions={

@@ -88,9 +88,9 @@ ContactPage.getLayout = (page) => (
         headline="Get in Touch With Me"
         subHeadline={
             <>
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua.
+                Send me a message about any offer or question you might have. If
+                you got something short, mention me on Twitter or slide into my
+                DMs.
             </>
         }
     >

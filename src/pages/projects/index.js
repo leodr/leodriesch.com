@@ -29,9 +29,8 @@ ProjectsPage.getLayout = (page) => (
         headline="What I'm Working On"
         subHeadline={
             <>
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua.
+                Whenever I publish a project, I try to round it all up with a
+                short article on here.
             </>
         }
     >
