@@ -13,6 +13,14 @@ export function StandardLayout({
 }) {
     const [showMenu, setShowMenu] = useState(false)
 
+    function handleShowMenu() {
+        setShowMenu(true)
+    }
+
+    function handleCloseMenu() {
+        setShowMenu(false)
+    }
+
     return (
         <>
             <div className="relative bg-gray-50 overflow-hidden">
@@ -87,7 +95,7 @@ export function StandardLayout({
                         </svg>
                     </div>
                 </div>
-                <div className="relative pt-6 pb-16 sm:pb-24">
+                <div className="relative pt-4 pb-12 sm:pb-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6">
                         <nav
                             className="relative flex items-center justify-between sm:h-10 md:justify-center"
@@ -100,7 +108,7 @@ export function StandardLayout({
                                             <span className="sr-only">
                                                 Workflow
                                             </span>
-                                            <Logo className="text-indigo-600 w-10 h-10" />
+                                            <Logo className="text-indigo-600 w-7 md:w-8" />
                                         </a>
                                     </Link>
                                     <div className="-mr-2 flex items-center md:hidden">
@@ -109,7 +117,7 @@ export function StandardLayout({
                                             className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                                             id="main-menu"
                                             aria-haspopup="true"
-                                            onClick={() => setShowMenu(true)}
+                                            onClick={handleShowMenu}
                                         >
                                             <span className="sr-only">
                                                 Open main menu
@@ -152,12 +160,11 @@ export function StandardLayout({
                             </div>
                             <div className="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
                                 <span className="inline-flex rounded-md shadow">
-                                    <a
-                                        href="#"
-                                        className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50"
-                                    >
-                                        Log in
-                                    </a>
+                                    <Link href="/contact">
+                                        <a className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50">
+                                            Contact
+                                        </a>
+                                    </Link>
                                 </span>
                             </div>
                         </nav>
@@ -176,17 +183,17 @@ export function StandardLayout({
                         <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
                             <div className="px-5 pt-4 flex items-center justify-between">
                                 <div>
-                                    <img
-                                        className="h-8 w-auto"
-                                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                        alt=""
-                                    />
+                                    <Link href="/">
+                                        <a onClick={handleCloseMenu}>
+                                            <Logo className="text-indigo-600 w-7" />
+                                        </a>
+                                    </Link>
                                 </div>
                                 <div className="-mr-2">
                                     <button
                                         type="button"
                                         className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                                        onClick={() => setShowMenu(false)}
+                                        onClick={handleCloseMenu}
                                     >
                                         <span className="sr-only">
                                             Close menu
@@ -220,6 +227,7 @@ export function StandardLayout({
                                         <a
                                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                                             role="menuitem"
+                                            onClick={handleCloseMenu}
                                         >
                                             Projects
                                         </a>
@@ -228,6 +236,7 @@ export function StandardLayout({
                                         <a
                                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                                             role="menuitem"
+                                            onClick={handleCloseMenu}
                                         >
                                             Blog
                                         </a>
@@ -236,19 +245,22 @@ export function StandardLayout({
                                         <a
                                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                                             role="menuitem"
+                                            onClick={handleCloseMenu}
                                         >
                                             Contact
                                         </a>
                                     </Link>
                                 </div>
                                 <div role="none">
-                                    <a
-                                        href="#"
-                                        className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
-                                        role="menuitem"
-                                    >
-                                        Log in
-                                    </a>
+                                    <Link href="/contact">
+                                        <a
+                                            className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
+                                            role="menuitem"
+                                            onClick={handleCloseMenu}
+                                        >
+                                            Contact
+                                        </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
