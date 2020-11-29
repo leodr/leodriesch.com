@@ -1,5 +1,6 @@
 import { BlogCard } from "components/BlogCard"
 import { BlogGrid } from "components/BlogGrid"
+import { BlogSearchBox } from "components/BlogSearchBox"
 import { StandardLayout } from "layouts/StandardLayout"
 
 export default function BlogPage() {
@@ -71,28 +72,13 @@ BlogPage.getLayout = (page) => (
         headline="What I'm Thinking About"
         subHeadline={
             <>
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua.
+                I write about JavaScript, my workflow and any crazy idea I might
+                get while showering.
             </>
         }
         actions={
             <div className="flex justify-center mt-8 w-full">
-                <div className="relative" style={{ width: 480 }}>
-                    <input
-                        type="text"
-                        name="email"
-                        id="email"
-                        className="block w-full py-3 pr-24 text-base rounded-md placeholder-gray-500 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300"
-                        placeholder="Search through articles with Google"
-                    />
-                    <button
-                        type="button"
-                        className="absolute top-1/2 transform -translate-y-1/2 right-1 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Search
-                    </button>
-                </div>
+                <BlogSearchBox />
             </div>
         }
     >

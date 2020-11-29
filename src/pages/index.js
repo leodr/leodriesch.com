@@ -8,34 +8,36 @@ import Link from "next/link"
 export default function HomePage() {
     return (
         <>
-            <div className="mt-16 mb-4">
-                <SectionHeader
-                    title="Projects"
-                    headline="What I'm Working On"
-                    subHeadline={
-                        <>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Ipsa libero labore natus atque, ducimus sed.
-                        </>
-                    }
+            <div className="bg-white pt-16">
+                <div className="mb-4">
+                    <SectionHeader
+                        title="Projects"
+                        headline="What I'm Working On"
+                        subHeadline={
+                            <>
+                                Whenever I publish a project, I try to round it
+                                all up with a short article on here.
+                            </>
+                        }
+                    />
+                </div>
+
+                <ProjectCard
+                    title="Tired of the same old Messenger?"
+                    subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
+                    href="/projects/bla"
+                    color="purple"
+                    imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14656091/media/1d74c2c5dc6a875f457912fa63378871.jpg"
+                />
+
+                <ProjectCard
+                    title="Mobile banking reimagined"
+                    subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
+                    href="/projects/bla"
+                    color="gray"
+                    imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14607162/media/be69c5101757a823d147ea315e2830b4.jpg"
                 />
             </div>
-
-            <ProjectCard
-                title="Tired of the same old Messenger?"
-                subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
-                href="/projects/bla"
-                color="purple"
-                imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14656091/media/1d74c2c5dc6a875f457912fa63378871.jpg"
-            />
-
-            <ProjectCard
-                title="Mobile banking reimagined"
-                subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
-                href="/projects/bla"
-                color="gray"
-                imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14607162/media/be69c5101757a823d147ea315e2830b4.jpg"
-            />
 
             <div className="relative bg-gray-50 pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
                 <div className="absolute inset-0">
@@ -47,9 +49,8 @@ export default function HomePage() {
                         headline="What I'm Thinking About"
                         subHeadline={
                             <>
-                                Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Ipsa libero labore natus
-                                atque, ducimus sed.
+                                I write about JavaScript, my workflow and any
+                                crazy idea I might have under the shower.
                             </>
                         }
                     />
@@ -128,9 +129,16 @@ HomePage.getLayout = (page) => (
         }
         subHeadline={
             <>
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua.
+                I am a web developer and hobbyist designer. I currently work at{" "}
+                <a
+                    href="https://labs.tobit.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-500"
+                >
+                    Tobit.Labs
+                </a>{" "}
+                on bringing the digital age to anything and anyone.
             </>
         }
         actions={

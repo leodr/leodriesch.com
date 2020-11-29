@@ -3,7 +3,7 @@ import { StandardLayout } from "layouts/StandardLayout"
 
 export default function ProjectsPage() {
     return (
-        <div className="py-16">
+        <div className="bg-white sm:py-12">
             <ProjectCard
                 title="Tired of the same old Messenger?"
                 subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
@@ -29,9 +29,8 @@ ProjectsPage.getLayout = (page) => (
         headline="What I'm Working On"
         subHeadline={
             <>
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua.
+                Whenever I publish a project, I try to round it all up with a
+                short article on here.
             </>
         }
     >

@@ -1,4 +1,6 @@
 import { Transition } from "@headlessui/react"
+import { Logo } from "components/Logo"
+import { NewsletterForm } from "components/NewsletterForm"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -10,6 +12,14 @@ export function StandardLayout({
     pageTitle,
 }) {
     const [showMenu, setShowMenu] = useState(false)
+
+    function handleShowMenu() {
+        setShowMenu(true)
+    }
+
+    function handleCloseMenu() {
+        setShowMenu(false)
+    }
 
     return (
         <>
@@ -85,7 +95,7 @@ export function StandardLayout({
                         </svg>
                     </div>
                 </div>
-                <div className="relative pt-6 pb-16 sm:pb-24">
+                <div className="relative pt-4 pb-12 sm:pb-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6">
                         <nav
                             className="relative flex items-center justify-between sm:h-10 md:justify-center"
@@ -98,11 +108,7 @@ export function StandardLayout({
                                             <span className="sr-only">
                                                 Workflow
                                             </span>
-                                            <img
-                                                className="h-8 w-auto sm:h-10"
-                                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                                alt=""
-                                            />
+                                            <Logo className="text-indigo-600 w-7 md:w-8" />
                                         </a>
                                     </Link>
                                     <div className="-mr-2 flex items-center md:hidden">
@@ -111,7 +117,7 @@ export function StandardLayout({
                                             className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                                             id="main-menu"
                                             aria-haspopup="true"
-                                            onClick={() => setShowMenu(true)}
+                                            onClick={handleShowMenu}
                                         >
                                             <span className="sr-only">
                                                 Open main menu
@@ -154,12 +160,11 @@ export function StandardLayout({
                             </div>
                             <div className="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
                                 <span className="inline-flex rounded-md shadow">
-                                    <a
-                                        href="#"
-                                        className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50"
-                                    >
-                                        Log in
-                                    </a>
+                                    <Link href="/contact">
+                                        <a className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50">
+                                            Contact
+                                        </a>
+                                    </Link>
                                 </span>
                             </div>
                         </nav>
@@ -178,17 +183,17 @@ export function StandardLayout({
                         <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
                             <div className="px-5 pt-4 flex items-center justify-between">
                                 <div>
-                                    <img
-                                        className="h-8 w-auto"
-                                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                        alt=""
-                                    />
+                                    <Link href="/">
+                                        <a onClick={handleCloseMenu}>
+                                            <Logo className="text-indigo-600 w-7" />
+                                        </a>
+                                    </Link>
                                 </div>
                                 <div className="-mr-2">
                                     <button
                                         type="button"
                                         className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                                        onClick={() => setShowMenu(false)}
+                                        onClick={handleCloseMenu}
                                     >
                                         <span className="sr-only">
                                             Close menu
@@ -222,6 +227,7 @@ export function StandardLayout({
                                         <a
                                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                                             role="menuitem"
+                                            onClick={handleCloseMenu}
                                         >
                                             Projects
                                         </a>
@@ -230,6 +236,7 @@ export function StandardLayout({
                                         <a
                                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                                             role="menuitem"
+                                            onClick={handleCloseMenu}
                                         >
                                             Blog
                                         </a>
@@ -238,19 +245,22 @@ export function StandardLayout({
                                         <a
                                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                                             role="menuitem"
+                                            onClick={handleCloseMenu}
                                         >
                                             Contact
                                         </a>
                                     </Link>
                                 </div>
                                 <div role="none">
-                                    <a
-                                        href="#"
-                                        className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
-                                        role="menuitem"
-                                    >
-                                        Log in
-                                    </a>
+                                    <Link href="/contact">
+                                        <a
+                                            className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
+                                            role="menuitem"
+                                            onClick={handleCloseMenu}
+                                        >
+                                            Contact
+                                        </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -287,161 +297,69 @@ export function StandardLayout({
                 <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
                     <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                         <div className="grid grid-cols-2 gap-8 xl:col-span-2">
-                            <div className="md:grid md:grid-cols-2 md:gap-8">
-                                <div>
+                            <div className="col-span-2 flex space-x-4 sm:col-span-1 sm:grid sm:grid-cols-2 sm:gap-8">
+                                <div className="flex-1">
                                     <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                                        Solutions
+                                        Sitemap
                                     </h3>
                                     <ul className="mt-4 space-y-4">
                                         <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Marketing
-                                            </a>
+                                            <Link href="/">
+                                                <a className="text-base text-gray-300 hover:text-white">
+                                                    Home
+                                                </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Analytics
-                                            </a>
+                                            <Link href="/blog">
+                                                <a className="text-base text-gray-300 hover:text-white">
+                                                    Projects
+                                                </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Commerce
-                                            </a>
+                                            <Link href="/blog">
+                                                <a className="text-base text-gray-300 hover:text-white">
+                                                    Blog
+                                                </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Insights
-                                            </a>
+                                            <Link href="/contact">
+                                                <a className="text-base text-gray-300 hover:text-white">
+                                                    Contact
+                                                </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
-                                <div className="mt-12 md:mt-0">
+                                <div className="flex-1">
                                     <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                                        Support
+                                        OSS
                                     </h3>
                                     <ul className="mt-4 space-y-4">
                                         <li>
                                             <a
-                                                href="#"
+                                                href="https://github.com/leodr/leodriesch.com"
                                                 className="text-base text-gray-300 hover:text-white"
                                             >
-                                                Pricing
+                                                leodriesch.com
                                             </a>
                                         </li>
                                         <li>
                                             <a
-                                                href="#"
+                                                href="https://marketplace.visualstudio.com/items?itemName=leodriesch.paste-html-as-jsx"
                                                 className="text-base text-gray-300 hover:text-white"
                                             >
-                                                Documentation
+                                                Paste HTML as JSX
                                             </a>
                                         </li>
                                         <li>
                                             <a
-                                                href="#"
+                                                href="https://github.com/leodr/generate-emoji-list"
                                                 className="text-base text-gray-300 hover:text-white"
                                             >
-                                                Guides
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                API Status
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="md:grid md:grid-cols-2 md:gap-8">
-                                <div>
-                                    <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                                        Company
-                                    </h3>
-                                    <ul className="mt-4 space-y-4">
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                About
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Blog
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Jobs
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Press
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Partners
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="mt-12 md:mt-0">
-                                    <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                                        Legal
-                                    </h3>
-                                    <ul className="mt-4 space-y-4">
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Claim
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Privacy
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="text-base text-gray-300 hover:text-white"
-                                            >
-                                                Terms
+                                                generate-emoji-list
                                             </a>
                                         </li>
                                     </ul>
@@ -450,61 +368,21 @@ export function StandardLayout({
                         </div>
                         <div className="mt-8 xl:mt-0">
                             <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                                Subscribe to our newsletter
+                                Subscribe to my newsletter
                             </h3>
                             <p className="mt-4 text-base text-gray-300">
-                                The latest news, articles, and resources, sent
-                                to your inbox weekly.
+                                If you want to stay up to date with my projects
+                                and posts subscribe to my newsletter!
                             </p>
-                            <form className="mt-4 sm:flex sm:max-w-md">
-                                <label
-                                    htmlFor="emailAddress"
-                                    className="sr-only"
-                                >
-                                    Email address
-                                </label>
-                                <input
-                                    type="email"
-                                    name="emailAddress"
-                                    id="emailAddress"
-                                    autoComplete="email"
-                                    required
-                                    className="appearance-none min-w-0 w-full bg-white border border-transparent rounded-md py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white focus:border-white focus:placeholder-gray-400"
-                                    placeholder="Enter your email"
-                                />
-                                <div className="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
-                                    <button
-                                        type="submit"
-                                        className="w-full bg-indigo-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
-                                    >
-                                        Subscribe
-                                    </button>
-                                </div>
-                            </form>
+                            <NewsletterForm />
                         </div>
                     </div>
                     <div className="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
                         <div className="flex space-x-6 md:order-2">
                             <a
-                                href="#"
-                                className="text-gray-400 hover:text-gray-300"
-                            >
-                                <span className="sr-only">Facebook</span>
-                                <svg
-                                    className="h-6 w-6"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </a>
-                            <a
-                                href="#"
+                                href="https://www.instagram.com/leodriesch/"
+                                target="_blank"
+                                rel="noreferrer noopener"
                                 className="text-gray-400 hover:text-gray-300"
                             >
                                 <span className="sr-only">Instagram</span>
@@ -522,7 +400,9 @@ export function StandardLayout({
                                 </svg>
                             </a>
                             <a
-                                href="#"
+                                href="https://twitter.com/leodriesch"
+                                target="_blank"
+                                rel="noreferrer noopener"
                                 className="text-gray-400 hover:text-gray-300"
                             >
                                 <span className="sr-only">Twitter</span>
@@ -536,7 +416,9 @@ export function StandardLayout({
                                 </svg>
                             </a>
                             <a
-                                href="#"
+                                href="https://github.com/leodr"
+                                target="_blank"
+                                rel="noreferrer noopener"
                                 className="text-gray-400 hover:text-gray-300"
                             >
                                 <span className="sr-only">GitHub</span>
@@ -554,20 +436,20 @@ export function StandardLayout({
                                 </svg>
                             </a>
                             <a
-                                href="#"
+                                href="https://www.linkedin.com/in/leodriesch/"
+                                target="_blank"
+                                rel="noreferrer noopener"
                                 className="text-gray-400 hover:text-gray-300"
                             >
-                                <span className="sr-only">Dribbble</span>
+                                <span className="sr-only">LinkedIn</span>
                                 <svg
                                     className="h-6 w-6"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 448 512"
                                 >
                                     <path
-                                        fillRule="evenodd"
-                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
-                                        clipRule="evenodd"
+                                        fill="currentColor"
+                                        d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
                                     />
                                 </svg>
                             </a>
