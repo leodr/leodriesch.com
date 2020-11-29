@@ -3,7 +3,7 @@ import { StandardLayout } from "layouts/StandardLayout"
 
 export default function ProjectsPage() {
     return (
-        <div className="py-16">
+        <div className="bg-white sm:py-12">
             <ProjectCard
                 title="Tired of the same old Messenger?"
                 subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
