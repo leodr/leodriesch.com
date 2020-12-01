@@ -42,4 +42,12 @@ const withMDX = createMdxPlugin({
 
 module.exports = withMDX({
     pageExtensions: ["js", "jsx", "mdx"],
+    webpack(config) {
+        config.module.rules.unshift({
+            test: /.jsx?$/,
+            loader: require.resolve("./glob-loader"),
+        })
+
+        return config
+    },
 })
