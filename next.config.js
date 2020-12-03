@@ -1,6 +1,7 @@
 const createMdxPlugin = require("@next/mdx")
 const rehypePrism = require("@mapbox/rehype-prism")
 const visit = require("unist-util-visit")
+const withImages = require("next-images")
 
 /**
  * MDX configuration heavily inspired from Tailwind blog, see
@@ -40,27 +41,16 @@ const withMDX = createMdxPlugin({
     },
 })
 
-module.exports = withMDX({
-    pageExtensions: ["js", "jsx", "mdx"],
-    webpack(config) {
-        config.module.rules.unshift({
-            test: /.jsx?$/,
-            loader: require.resolve("./glob-loader"),
-        })
+module.exports = withImages(
+    withMDX({
+        pageExtensions: ["js", "jsx", "mdx"],
+        webpack(config) {
+            config.module.rules.unshift({
+                test: /.jsx?$/,
+                loader: require.resolve("./glob-loader"),
+            })
 
-        config.module.rules.push({
-            test: /\.(svg|png|jpe?g|gif|mp4)$/i,
-            use: [
-                {
-                    loader: "file-loader",
-                    options: {
-                        publicPath: "/_next",
-                        name: "static/media/[name].[hash:12].[ext]",
-                    },
-                },
-            ],
-        })
-
-        return config
-    },
-})
+            return config
+        },
+    })
+)
