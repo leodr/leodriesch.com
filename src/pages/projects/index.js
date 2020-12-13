@@ -35,7 +35,7 @@ ProjectsPage.getLayout = (page) => (
 )
 
 export async function getStaticProps() {
-    const recentProjects = await getRecentProjects({ take: 2 })
+    const recentProjects = await getRecentProjects({ take: Infinity })
 
     return {
         props: { recentProjects },

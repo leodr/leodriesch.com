@@ -53,7 +53,7 @@ BlogPage.getLayout = (page) => (
 )
 
 export async function getStaticProps() {
-    const recentPosts = await getRecentPosts({ take: 3 })
+    const recentPosts = await getRecentPosts({ take: Infinity })
 
     return {
         props: { recentPosts },
