@@ -1,5 +1,6 @@
 import { BlogLayout } from "layouts/BlogLayout.js"
 import headSrc from "./head.jpg"
+import { Iframe } from "components/post-embeds/Iframe"
 
 export const meta = {
     category: "react",
@@ -11,8 +12,6 @@ export const meta = {
 }
 
 export default ({ children }) => <BlogLayout meta={meta}>{children}</BlogLayout>
-
-# Learned from Beginners Guide to React
 
 Recently I've gone through
 [Kent C. Dodds' "The Beginner's Guide to React"](https://egghead.io/courses/the-beginner-s-guide-to-react)
@@ -193,7 +192,7 @@ distinguish idle and loading states.
 
 Check out the CodeSandbox here:
 
-[https://codesandbox.io/s/demo-of-using-a-status-for-http-requests-in-react-zxb1j?fontsize=14&hidenavigation=1&theme=dark](https://codesandbox.io/s/demo-of-using-a-status-for-http-requests-in-react-zxb1j?fontsize=14&hidenavigation=1&theme=dark)
+<Iframe src="https://codesandbox.io/embed/demo-of-using-a-status-for-http-requests-in-react-zxb1j?fontsize=14&hidenavigation=1&theme=dark" />
 
 So these are some of the things I picked up in "The Beginner's Guide to React".
 I have been working with React for over a year now, but there is always

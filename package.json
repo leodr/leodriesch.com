@@ -27,6 +27,7 @@
         "next": "10.0.3",
         "next-images": "^1.6.2",
         "postcss": "^8.1.14",
+        "postcss-nesting": "^7.0.1",
         "react": "17.0.1",
         "react-dom": "17.0.1",
         "tailwindcss": "^2.0.1",
