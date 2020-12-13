@@ -1,4 +1,5 @@
 import { getRecentPosts } from "api/posts/getRecentPosts"
+import { getRecentProjects } from "api/projects/getRecentProjects"
 import { BlogCard } from "components/BlogCard"
 import { BlogGrid } from "components/BlogGrid"
 import { ProjectCard } from "components/ProjectCard"
@@ -6,7 +7,7 @@ import { SectionHeader } from "components/SectionHeader"
 import { StandardLayout } from "layouts/StandardLayout"
 import Link from "next/link"
 
-export default function HomePage({ recentPosts }) {
+export default function HomePage({ recentPosts, recentProjects }) {
     return (
         <>
             <div className="bg-white pt-16">
@@ -23,21 +24,16 @@ export default function HomePage({ recentPosts }) {
                     />
                 </div>
 
-                <ProjectCard
-                    title="Tired of the same old Messenger?"
-                    subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
-                    href="/projects/bla"
-                    color="purple"
-                    imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14656091/media/1d74c2c5dc6a875f457912fa63378871.jpg"
-                />
-
-                <ProjectCard
-                    title="Mobile banking reimagined"
-                    subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!"
-                    href="/projects/bla"
-                    color="gray"
-                    imageSrc="https://cdn.dribbble.com/users/1615584/screenshots/14607162/media/be69c5101757a823d147ea315e2830b4.jpg"
-                />
+                {recentProjects.map((project) => (
+                    <ProjectCard
+                        key={project.slug}
+                        title={project.title}
+                        subtitle={project.intro}
+                        href={`/projects/${project.slug}`}
+                        color={project.color}
+                        imageSrc={project.headImage}
+                    />
+                ))}
             </div>
 
             <div className="relative bg-gray-50 pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
@@ -132,8 +128,9 @@ HomePage.getLayout = (page) => (
 
 export async function getStaticProps() {
     const recentPosts = await getRecentPosts({ take: 3 })
+    const recentProjects = await getRecentProjects({ take: 2 })
 
     return {
-        props: { recentPosts },
+        props: { recentPosts, recentProjects },
     }
 }
