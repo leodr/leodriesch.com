@@ -68,7 +68,7 @@ export function NewsletterForm() {
                         {submissionState === "idle" && (
                             <motion.div
                                 key="subscribe-text"
-                                className="absolute inset-0 grid place-items-center"
+                                className="absolute inset-0 flex items-center justify-center"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
@@ -80,7 +80,7 @@ export function NewsletterForm() {
                         {submissionState === "pending" && (
                             <motion.div
                                 key="spinner"
-                                className="absolute inset-0 grid place-items-center"
+                                className="absolute inset-0 flex items-center justify-center"
                                 initial={{ rotate: 0, scale: 0 }}
                                 animate={{ rotate: 0, scale: 1 }}
                                 exit={{ rotate: 90, scale: 0 }}
@@ -92,7 +92,7 @@ export function NewsletterForm() {
                         {submissionState === "success" && (
                             <motion.div
                                 key="success-check"
-                                className="absolute inset-0 grid place-items-center"
+                                className="absolute inset-0 flex items-center justify-center"
                                 initial={{ rotate: -90, scale: 0 }}
                                 animate={{ rotate: 0, scale: 1 }}
                                 exit={{ rotate: 0, scale: 0 }}
@@ -115,7 +115,7 @@ export function NewsletterForm() {
                         {submissionState === "error" && (
                             <motion.div
                                 key="success-check"
-                                className="absolute inset-0 grid place-items-center"
+                                className="absolute inset-0 flex items-center justify-center"
                                 initial={{ rotate: -90, scale: 0 }}
                                 animate={{ rotate: 0, scale: 1 }}
                                 exit={{ rotate: 0, scale: 0 }}
