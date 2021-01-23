@@ -29,7 +29,7 @@ export default async function sendMailHandler(req, res) {
             try {
                 await sgMail.send({
                     to: "hi@leodriesch.com",
-                    from: "hi@leodriesch.com",
+                    from: "contact-form@leodriesch.com",
                     replyTo: email,
                     subject: `${firstName} Wants to Get in Contact with You`,
                     text: message,
