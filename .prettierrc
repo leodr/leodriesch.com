@@ -1,4 +1,12 @@
 {
+    "overrides": [
+        {
+            "files": ["*.md", "*.mdx"],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ],
     "proseWrap": "always",
     "semi": false,
     "tabWidth": 4

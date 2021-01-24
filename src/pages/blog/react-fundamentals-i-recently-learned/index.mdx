@@ -3,12 +3,12 @@ import headSrc from "./head.jpg"
 import { Iframe } from "components/post-embeds/Iframe"
 
 export const meta = {
-    category: "react",
-    headImage: headSrc,
-    intro: "Lorem ipsum dolor sit amet.",
-    publishDate: "2020-12-03",
-    slug: "react-fundamentals-i-recently-learned",
-    title: "5 React Fundamentals I Recently Picked Up",
+  category: "react",
+  headImage: headSrc,
+  intro: "Lorem ipsum dolor sit amet.",
+  publishDate: "2020-12-03",
+  slug: "react-fundamentals-i-recently-learned",
+  title: "5 React Fundamentals I Recently Picked Up",
 }
 
 export default ({ children }) => <BlogLayout meta={meta}>{children}</BlogLayout>
@@ -30,11 +30,11 @@ You could easily write your own PropType-Checker with this signature:
 
 ```jsx
 function PropChecker(props, propName, componentName) {
-    // ...
+  // ...
 }
 
 MyComponent.propTypes = {
-    myProp: PropChecker,
+  myProp: PropChecker,
 }
 ```
 
@@ -88,38 +88,38 @@ that for null like this:
 
 ```jsx
 export default function App() {
-    const [data, setData] = useState()
-    const [error, setError] = useState()
+  const [data, setData] = useState()
+  const [error, setError] = useState()
 
-    function handleSubmit(event) {
-        event.preventDefault()
-        const username = event.target.elements.username.value
+  function handleSubmit(event) {
+    event.preventDefault()
+    const username = event.target.elements.username.value
 
-        fetch(`https://api.github.com/users/${username}/repos`)
-            .then((response) => response.json())
-            .then((responseData) => setData(responseData))
-            .catch((e) => setError(e))
-    }
+    fetch(`https://api.github.com/users/${username}/repos`)
+      .then((response) => response.json())
+      .then((responseData) => setData(responseData))
+      .catch((e) => setError(e))
+  }
 
-    let content
+  let content
 
-    if (error) {
-        content = <p>Oops, something has gone wrong...</p>
-    }
+  if (error) {
+    content = <p>Oops, something has gone wrong...</p>
+  }
 
-    if (data) {
-        content = <pre>{JSON.stringify(data, null, 2)}</pre>
-    }
+  if (data) {
+    content = <pre>{JSON.stringify(data, null, 2)}</pre>
+  }
 
-    return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <input placeholder="GitHub username" name="username" />
-                <button type="submit">Load Repositories</button>
-            </form>
-            <div>{content ?? "Go ahead and fetch some repositories!"}</div>
-        </>
-    )
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <input placeholder="GitHub username" name="username" />
+        <button type="submit">Load Repositories</button>
+      </form>
+      <div>{content ?? "Go ahead and fetch some repositories!"}</div>
+    </>
+  )
 }
 ```
 
@@ -134,53 +134,53 @@ you even call this a state machine)?:
 
 ```jsx
 export default function App() {
-    const [data, setData] = useState()
-    const [status, setStatus] = useState("idle")
+  const [data, setData] = useState()
+  const [status, setStatus] = useState("idle")
 
-    function handleSubmit(event) {
-        event.preventDefault()
-        const username = event.target.elements.username.value
+  function handleSubmit(event) {
+    event.preventDefault()
+    const username = event.target.elements.username.value
 
-        setStatus("pending")
-        fetch(`https://api.github.com/users/${username}/repos`)
-            .then((response) => response.json())
-            .then((responseData) => {
-                setStatus("resolved")
-                setData(responseData)
-            })
-            .catch((e) => {
-                // logErrorToService(e);
-                setStatus("rejected")
-            })
-    }
+    setStatus("pending")
+    fetch(`https://api.github.com/users/${username}/repos`)
+      .then((response) => response.json())
+      .then((responseData) => {
+        setStatus("resolved")
+        setData(responseData)
+      })
+      .catch((e) => {
+        // logErrorToService(e);
+        setStatus("rejected")
+      })
+  }
 
-    let content
+  let content
 
-    if (status === "idle") {
-        content = <p>Go ahead and fetch some user repos!</p>
-    }
+  if (status === "idle") {
+    content = <p>Go ahead and fetch some user repos!</p>
+  }
 
-    if (status === "pending") {
-        content = <p>Loading...</p>
-    }
+  if (status === "pending") {
+    content = <p>Loading...</p>
+  }
 
-    if (status === "rejected") {
-        content = <p>Oops, something has gone wrong...</p>
-    }
+  if (status === "rejected") {
+    content = <p>Oops, something has gone wrong...</p>
+  }
 
-    if (status === "resolved") {
-        content = <pre>{JSON.stringify(data, null, 2)}</pre>
-    }
+  if (status === "resolved") {
+    content = <pre>{JSON.stringify(data, null, 2)}</pre>
+  }
 
-    return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <input placeholder="GitHub username" name="username" />
-                <button type="submit">Load Repositories</button>
-            </form>
-            <div>{content}</div>
-        </>
-    )
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <input placeholder="GitHub username" name="username" />
+        <button type="submit">Load Repositories</button>
+      </form>
+      <div>{content}</div>
+    </>
+  )
 }
 ```
 
