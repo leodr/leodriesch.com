@@ -10,9 +10,11 @@
         "module": "esnext",
         "moduleResolution": "node",
         "noEmit": true,
+        "noImplicitAny": true,
+        "noUncheckedIndexedAccess": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
-        "strict": false,
+        "strict": true,
         "target": "es5"
     },
     "exclude": ["node_modules"],
