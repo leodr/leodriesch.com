@@ -17,10 +17,10 @@ const withMDX = createMdxPlugin({
 
 module.exports = withImages(
     withMDX({
-        pageExtensions: ["js", "jsx", "mdx"],
+        pageExtensions: ["tsx", "mdx"],
         webpack(config) {
             config.module.rules.unshift({
-                test: /.jsx?$/,
+                test: /\.tsx?$/,
                 loader: require.resolve("./glob-loader"),
             })
 
