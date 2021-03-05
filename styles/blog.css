@@ -1,11 +1,11 @@
-article {
-    & pre {
-        margin: theme("margin.-3");
-        border-radius: theme("borderRadius.none") !important;
+article pre {
+    margin: theme("margin.-3");
+    border-radius: theme("borderRadius.none") !important;
+}
 
-        @screen sm {
-            margin: theme("margin.-6");
-            border-radius: theme("borderRadius.md") !important;
-        }
+@screen sm {
+    article pre {
+        margin: theme("margin.-6");
+        border-radius: theme("borderRadius.md") !important;
     }
 }
