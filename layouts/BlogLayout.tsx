@@ -1,7 +1,14 @@
 import { format } from "date-fns"
+import { PostData } from "lib/data/posts/getAllPosts"
+import { ReactNode } from "react"
 import { StandardLayout } from "./StandardLayout"
 
-export function BlogLayout({ children, meta }) {
+interface Props {
+    children: ReactNode
+    meta: PostData
+}
+
+export function BlogLayout({ children, meta }: Props) {
     return (
         <StandardLayout
             headline={
