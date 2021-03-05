@@ -1,19 +1,19 @@
 {
-    "name": "Leo Driesch",
-    "short_name": "Leo Driesch",
+    "background_color": "#f9fafb",
+    "display": "standalone",
     "icons": [
         {
-            "src": "/android-chrome-192x192.png",
             "sizes": "192x192",
+            "src": "/icons/android-chrome-192x192.png",
             "type": "image/png"
         },
         {
-            "src": "/android-chrome-512x512.png",
             "sizes": "512x512",
+            "src": "/icons/android-chrome-512x512.png",
             "type": "image/png"
         }
     ],
-    "theme_color": "#f9fafb",
-    "background_color": "#f9fafb",
-    "display": "standalone"
+    "name": "Leo Driesch",
+    "short_name": "Leo Driesch",
+    "theme_color": "#f9fafb"
 }
