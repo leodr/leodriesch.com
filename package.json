@@ -9,7 +9,8 @@
         "format": "prettier . --write --ignore-path .gitignore",
         "lint": "eslint . --ignore-path .gitignore",
         "prepare": "husky install && rm -rf .git/hooks && ln -s ../.husky .git/hooks",
-        "start": "next start"
+        "start": "next start",
+        "validate": "yarn lint && yarn check-types"
     },
     "dependencies": {
         "@headlessui/react": "^0.3.1",
