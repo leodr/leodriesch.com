@@ -1,6 +1,6 @@
-import { subscribeToNewsletter } from "api/newsletter/subscribeToNewsletter"
 import clsx from "clsx"
 import { AnimatePresence, motion } from "framer-motion"
+import { subscribeToNewsletter } from "lib/api/subscribeToNewsletter"
 import { useEffect, useState } from "react"
 import { Spinner } from "./Spinner"
 

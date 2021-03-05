@@ -1,8 +1,8 @@
-import { getRecentPosts } from "api/posts/getRecentPosts"
 import { BlogCard } from "components/BlogCard"
 import { BlogGrid } from "components/BlogGrid"
 import { BlogSearchBox } from "components/BlogSearchBox"
 import { StandardLayout } from "layouts/StandardLayout"
+import { getRecentPosts } from "lib/data/posts/getRecentPosts"
 
 export default function BlogPage({ recentPosts }) {
     return (

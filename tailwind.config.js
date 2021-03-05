@@ -3,7 +3,7 @@ const colors = require("tailwindcss/colors")
 
 module.exports = {
     purge: {
-        content: ["./src/**/*.{js,mdx}"],
+        content: ["./**/*.{js,mdx}"],
         options: {
             /**
              * Safelist all non-prefixed text- and background-colors because we

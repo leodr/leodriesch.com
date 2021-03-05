@@ -1,16 +1,21 @@
-import { getRecentPosts } from "api/posts/getRecentPosts"
-import { getRecentProjects } from "api/projects/getRecentProjects"
 import { BlogCard } from "components/BlogCard"
 import { BlogGrid } from "components/BlogGrid"
 import { ProjectCard } from "components/ProjectCard"
 import { SectionHeader } from "components/SectionHeader"
 import { StandardLayout } from "layouts/StandardLayout"
+import { getRecentPosts } from "lib/data/posts/getRecentPosts"
+import { getRecentProjects } from "lib/data/projects/getRecentProjects"
+import { NextSeo } from "next-seo"
 import Image from "next/image"
 import Link from "next/link"
 
 export default function HomePage({ recentPosts, recentProjects }) {
     return (
         <>
+            <NextSeo
+                title="Leo Driesch"
+                description="Leo Driesch is a web developer."
+            />
             <div className="bg-white pt-16">
                 <div className="mb-4">
                     <SectionHeader

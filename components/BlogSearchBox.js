@@ -1,4 +1,4 @@
-import { openGoogleResults } from "utils/openGoogleResults"
+import { openGoogleResults } from "lib/utils/openGoogleResults"
 
 export function BlogSearchBox() {
     function handleSubmit(event) {

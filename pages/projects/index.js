@@ -1,6 +1,6 @@
-import { getRecentProjects } from "api/projects/getRecentProjects"
 import { ProjectCard } from "components/ProjectCard"
 import { StandardLayout } from "layouts/StandardLayout"
+import { getRecentProjects } from "lib/data/projects/getRecentProjects"
 
 export default function ProjectsPage({ recentProjects }) {
     return (
