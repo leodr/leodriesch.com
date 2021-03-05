@@ -5,6 +5,7 @@ import { BlogGrid } from "components/BlogGrid"
 import { ProjectCard } from "components/ProjectCard"
 import { SectionHeader } from "components/SectionHeader"
 import { StandardLayout } from "layouts/StandardLayout"
+import Image from "next/image"
 import Link from "next/link"
 
 export default function HomePage({ recentPosts, recentProjects }) {
