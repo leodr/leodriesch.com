@@ -1,6 +1,6 @@
 interface Options {
     email: string
-    firstName: string
+    firstName?: string
 }
 
 export async function subscribeToNewsletter({ email, firstName }: Options) {

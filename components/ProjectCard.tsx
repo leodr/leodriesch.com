@@ -1,7 +1,16 @@
+import { ProjectColor } from "lib/data/projects/getAllProjects"
 import Image from "next/image"
 import Link from "next/link"
 
-export function ProjectCard({ title, subtitle, href, imageSrc, color }) {
+interface Props {
+    title: string
+    subtitle: string
+    href: string
+    imageSrc: string
+    color: ProjectColor
+}
+
+export function ProjectCard({ title, subtitle, href, imageSrc, color }: Props) {
     return (
         <>
             <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">

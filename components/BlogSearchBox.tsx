@@ -1,13 +1,21 @@
 import { openGoogleResults } from "lib/utils/openGoogleResults"
+import { FormEvent } from "react"
+
+interface FormElements extends HTMLFormControlsCollection {
+    query: HTMLInputElement
+}
+interface BlogSearchBoxFormElement extends HTMLFormElement {
+    readonly elements: FormElements
+}
 
 export function BlogSearchBox() {
-    function handleSubmit(event) {
+    function handleSubmit(event: FormEvent<BlogSearchBoxFormElement>) {
         event.preventDefault()
 
-        const formElements = event.target.elements
+        const formElements = (event.target as BlogSearchBoxFormElement).elements
         const query = formElements.query.value
 
-        openGoogleResults({ query })
+        openGoogleResults(query)
     }
 
     return (
