@@ -5,7 +5,7 @@ article {
 
         @screen sm {
             margin: theme("margin.-6");
-            border-radius: theme("borderRadius.md");
+            border-radius: theme("borderRadius.md") !important;
         }
     }
 }
