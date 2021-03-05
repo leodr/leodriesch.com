@@ -1,4 +1,4 @@
-export function openGoogleResults({ query }) {
+export function openGoogleResults(query: string) {
     const transformedQuery = query
         .trim()
         .split(/\s/)

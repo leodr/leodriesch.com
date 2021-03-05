@@ -1,14 +1,20 @@
 import cheerio from "cheerio"
+import React from "react"
 import ReactDOMServer from "react-dom/server"
+
+export type ReactComponent = Parameters<typeof React.createElement>[0]
 
 const WORDS_PER_MINUTE = 200
 
-export function getReadTimeForComponent(Component) {
-    const html = ReactDOMServer.renderToStaticMarkup(<Component />)
+export function getReadTimeInMinutes(Component: ReactComponent): number {
+    const html = ReactDOMServer.renderToStaticMarkup(
+        React.createElement(Component)
+    )
 
     const $ = cheerio.load(html)
 
     $("code").remove()
+    // @ts-expect-error: This does exist.
     const text = $.text()
 
     const words = text.split(/\s/g).length
