@@ -77,7 +77,10 @@ HomePage.getLayout = (page) => (
         headline={
             <>
                 <div className="flex justify-center mb-6">
-                    <img
+                    <Image
+                        width={100}
+                        height={100}
+                        loading="eager"
                         src="https://avatars1.githubusercontent.com/u/39763575?s=460&u=01a1ae18c167cc4a6151db80befa333dd84975c5&v=4"
                         alt=""
                         className="w-24 h-24 rounded-full shadow-lg"

@@ -1,4 +1,5 @@
 import { format } from "date-fns"
+import Image from "next/image"
 import Link from "next/link"
 
 export function BlogCard({
@@ -12,10 +13,12 @@ export function BlogCard({
 }) {
     return (
         <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
-            <div className="flex-shrink-0">
-                <img
-                    className="h-48 w-full object-cover"
+            <div className="flex-shrink-0 relative">
+                <Image
                     src={imageSrc}
+                    width={500}
+                    height={250}
+                    objectFit="cover"
                     alt=""
                 />
             </div>
