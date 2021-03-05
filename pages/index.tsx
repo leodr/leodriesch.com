@@ -3,13 +3,22 @@ import { BlogGrid } from "components/BlogGrid"
 import { ProjectCard } from "components/ProjectCard"
 import { SectionHeader } from "components/SectionHeader"
 import { StandardLayout } from "layouts/StandardLayout"
+import { PostData } from "lib/data/posts/getAllPosts"
 import { getRecentPosts } from "lib/data/posts/getRecentPosts"
+import { ProjectMeta } from "lib/data/projects/getAllProjects"
 import { getRecentProjects } from "lib/data/projects/getRecentProjects"
+import type { GetStaticProps } from "next"
 import { NextSeo } from "next-seo"
 import Image from "next/image"
 import Link from "next/link"
+import { ReactNode } from "react"
 
-export default function HomePage({ recentPosts, recentProjects }) {
+interface Props {
+    recentPosts: PostData[]
+    recentProjects: ProjectMeta[]
+}
+
+export default function HomePage({ recentPosts, recentProjects }: Props) {
     return (
         <>
             <NextSeo
@@ -21,12 +30,7 @@ export default function HomePage({ recentPosts, recentProjects }) {
                     <SectionHeader
                         title="Projects"
                         headline="What I'm Working On"
-                        subHeadline={
-                            <>
-                                Whenever I publish a project, I try to round it
-                                all up with a short article on here.
-                            </>
-                        }
+                        subHeadline="Whenever I publish a project, I try to round it all up with a short article on here."
                     />
                 </div>
 
@@ -50,12 +54,7 @@ export default function HomePage({ recentPosts, recentProjects }) {
                     <SectionHeader
                         title="Blog"
                         headline="What I'm Thinking About"
-                        subHeadline={
-                            <>
-                                I write about JavaScript, my workflow and any
-                                crazy idea I might have under the shower.
-                            </>
-                        }
+                        subHeadline="I write about JavaScript, my workflow and any crazy idea I might have under the shower."
                     />
 
                     <BlogGrid>
@@ -78,7 +77,7 @@ export default function HomePage({ recentPosts, recentProjects }) {
     )
 }
 
-HomePage.getLayout = (page) => (
+HomePage.getLayout = (page: ReactNode) => (
     <StandardLayout
         headline={
             <>
@@ -135,9 +134,9 @@ HomePage.getLayout = (page) => (
     </StandardLayout>
 )
 
-export async function getStaticProps() {
-    const recentPosts = await getRecentPosts({ take: 3 })
-    const recentProjects = await getRecentProjects({ take: 2 })
+export const getStaticProps: GetStaticProps<Props> = async () => {
+    const recentPosts = getRecentPosts({ take: 3 })
+    const recentProjects = getRecentProjects({ take: 2 })
 
     return {
         props: { recentPosts, recentProjects },

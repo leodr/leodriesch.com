@@ -1,8 +1,15 @@
 import { ProjectCard } from "components/ProjectCard"
 import { StandardLayout } from "layouts/StandardLayout"
+import { ProjectMeta } from "lib/data/projects/getAllProjects"
 import { getRecentProjects } from "lib/data/projects/getRecentProjects"
+import type { GetStaticProps } from "next"
+import { ReactNode } from "react"
 
-export default function ProjectsPage({ recentProjects }) {
+interface Props {
+    recentProjects: ProjectMeta[]
+}
+
+export default function ProjectsPage({ recentProjects }: Props) {
     return (
         <div className="bg-white sm:py-12">
             {recentProjects.map((project) => (
@@ -19,7 +26,7 @@ export default function ProjectsPage({ recentProjects }) {
     )
 }
 
-ProjectsPage.getLayout = (page) => (
+ProjectsPage.getLayout = (page: ReactNode) => (
     <StandardLayout
         pageTitle="Projects"
         headline="What I'm Working On"
@@ -34,8 +41,8 @@ ProjectsPage.getLayout = (page) => (
     </StandardLayout>
 )
 
-export async function getStaticProps() {
-    const recentProjects = await getRecentProjects({ take: Infinity })
+export const getStaticProps: GetStaticProps<Props> = async () => {
+    const recentProjects = getRecentProjects({ take: Infinity })
 
     return {
         props: { recentProjects },
