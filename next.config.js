@@ -26,5 +26,8 @@ module.exports = withImages(
 
             return config
         },
+        images: {
+            domains: ["avatars1.githubusercontent.com"],
+        },
     })
 )
