@@ -7,7 +7,8 @@
         "dev": "next dev",
         "format": "prettier . --write --ignore-path .gitignore",
         "lint": "eslint . --ignore-path .gitignore",
-        "start": "next start"
+        "start": "next start",
+        "prepare": "husky install"
     },
     "dependencies": {
         "@headlessui/react": "^0.3.1",
@@ -50,10 +51,10 @@
         "eslint-plugin-react": "^7.22.0",
         "eslint-plugin-react-hooks": "^4.2.0",
         "eslint-plugin-testing-library": "^3.10.1",
-        "husky": "^4.3.8",
-        "lint-staged": "^10.5.4",
+        "husky": "^5.1.3",
         "organize-imports-cli": "^0.8.0",
         "prettier": "^2.2.1",
-        "prettier-plugin-packagejson": "^2.2.10"
+        "prettier-plugin-packagejson": "^2.2.10",
+        "pretty-quick": "^3.1.0"
     }
 }
