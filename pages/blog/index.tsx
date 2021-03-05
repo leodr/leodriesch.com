@@ -2,9 +2,16 @@ import { BlogCard } from "components/BlogCard"
 import { BlogGrid } from "components/BlogGrid"
 import { BlogSearchBox } from "components/BlogSearchBox"
 import { StandardLayout } from "layouts/StandardLayout"
+import { PostData } from "lib/data/posts/getAllPosts"
 import { getRecentPosts } from "lib/data/posts/getRecentPosts"
+import type { GetStaticProps } from "next"
+import { ReactNode } from "react"
 
-export default function BlogPage({ recentPosts }) {
+interface Props {
+    recentPosts: PostData[]
+}
+
+export default function BlogPage({ recentPosts }: Props) {
     return (
         <>
             <div className="relative bg-gray-50 pb-20 px-4 sm:px-6 lg:pt-12 lg:pb-28 lg:px-8">
@@ -32,7 +39,7 @@ export default function BlogPage({ recentPosts }) {
     )
 }
 
-BlogPage.getLayout = (page) => (
+BlogPage.getLayout = (page: ReactNode) => (
     <StandardLayout
         pageTitle="Blog"
         headline="What I'm Thinking About"
@@ -52,8 +59,8 @@ BlogPage.getLayout = (page) => (
     </StandardLayout>
 )
 
-export async function getStaticProps() {
-    const recentPosts = await getRecentPosts({ take: Infinity })
+export const getStaticProps: GetStaticProps<Props> = async () => {
+    const recentPosts = getRecentPosts({ take: Infinity })
 
     return {
         props: { recentPosts },

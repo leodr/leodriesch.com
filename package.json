@@ -4,11 +4,13 @@
     "private": true,
     "scripts": {
         "build": "next build",
+        "check-types": "tsc",
         "dev": "next dev",
         "format": "prettier . --write --ignore-path .gitignore",
         "lint": "eslint . --ignore-path .gitignore",
         "prepare": "husky install && rm -rf .git/hooks && ln -s ../.husky .git/hooks",
-        "start": "next start"
+        "start": "next start",
+        "validate": "yarn lint && yarn check-types"
     },
     "dependencies": {
         "@headlessui/react": "^0.3.1",
@@ -39,6 +41,8 @@
         "yup": "^0.32.9"
     },
     "devDependencies": {
+        "@types/react": "^17.0.2",
+        "@types/react-dom": "^17.0.1",
         "@typescript-eslint/eslint-plugin": "^4.16.1",
         "@typescript-eslint/parser": "^4.16.1",
         "babel-eslint": "^10.1.0",
@@ -55,6 +59,7 @@
         "organize-imports-cli": "^0.8.0",
         "prettier": "^2.2.1",
         "prettier-plugin-packagejson": "^2.2.10",
-        "pretty-quick": "^3.1.0"
+        "pretty-quick": "^3.1.0",
+        "typescript": "^4.2.3"
     }
 }

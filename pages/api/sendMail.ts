@@ -1,5 +1,8 @@
 import sgMail from "@sendgrid/mail"
+import type { NextApiRequest, NextApiResponse } from "next"
 import * as yup from "yup"
+
+if (!process.env.SENDGRID_API_KEY) throw Error("Missing SendGrid API key.")
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
@@ -9,7 +12,10 @@ const schema = yup.object().shape({
     message: yup.string().required(),
 })
 
-export default async function sendMailHandler(req, res) {
+export default async function sendMailHandler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
     const { body, method } = req
 
     switch (method) {
@@ -49,7 +55,7 @@ export default async function sendMailHandler(req, res) {
     }
 }
 
-function getHTML(message) {
+function getHTML(message: string) {
     return /* HTML */ `<!DOCTYPE html>
         <html>
             <head>

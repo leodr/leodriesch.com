@@ -1,16 +1,23 @@
 import clsx from "clsx"
 import { AnimatePresence, motion } from "framer-motion"
 import { subscribeToNewsletter } from "lib/api/subscribeToNewsletter"
-import { useEffect, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { Spinner } from "./Spinner"
+
+interface FormElements extends HTMLFormControlsCollection {
+    emailAddress: HTMLInputElement
+}
+interface NewsletterFormElement extends HTMLFormElement {
+    readonly elements: FormElements
+}
 
 export function NewsletterForm() {
     const [submissionState, setSubmissionState] = useState("idle")
 
-    async function handleSubmit(event) {
+    async function handleSubmit(event: FormEvent<NewsletterFormElement>) {
         event.preventDefault()
 
-        const formElements = event.target.elements
+        const formElements = (event.target as NewsletterFormElement).elements
         const email = formElements.emailAddress.value
 
         setSubmissionState("pending")

@@ -1,12 +1,15 @@
 import { DefaultSeo } from "next-seo"
+import type { AppProps } from "next/app"
 import Head from "next/head"
+import { ReactNode } from "react"
 import "styles/blog.css"
 import "styles/fonts.css"
 import "styles/globals.css"
 import "tailwindcss/tailwind.css"
 
-export default function CustomApp({ Component, pageProps }) {
-    const getLayout = Component.getLayout || ((page) => page)
+export default function CustomApp({ Component, pageProps }: AppProps) {
+    // @ts-expect-error: Next does not really provide a way to type static props onto pages.
+    const getLayout = Component.getLayout || ((page: ReactNode) => page)
 
     return getLayout(
         <>

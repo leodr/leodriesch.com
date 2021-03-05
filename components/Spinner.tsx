@@ -1,4 +1,6 @@
-export function Spinner(props) {
+import { SVGProps } from "react"
+
+export function Spinner(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             viewBox="0 0 100 100"

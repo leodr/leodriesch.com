@@ -1,4 +1,9 @@
-export async function subscribeToNewsletter({ email, firstName }) {
+interface Options {
+    email: string
+    firstName?: string
+}
+
+export async function subscribeToNewsletter({ email, firstName }: Options) {
     const response = await fetch(
         `https://api.convertkit.com/v3/forms/${process.env.NEXT_PUBLIC_CONVERTKIT_FORM_ID}/subscribe`,
         {
@@ -12,7 +17,9 @@ export async function subscribeToNewsletter({ email, firstName }) {
         }
     )
 
-    if (response.status >= 400) {
-        throw Error()
+    if (!response.ok) {
+        throw Error(
+            `Subscribing to newsletter failed with status code ${response.status}.`
+        )
     }
 }

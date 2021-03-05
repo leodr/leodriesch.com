@@ -3,7 +3,15 @@ import { Logo } from "components/Logo"
 import { MobileMenu } from "components/MobileMenu"
 import { NavigationBar } from "components/NavigationBar"
 import Link from "next/link"
-import { useState } from "react"
+import { ReactNode, useState } from "react"
+
+interface Props {
+    children: ReactNode
+    headline: ReactNode
+    subHeadline?: ReactNode
+    actions?: ReactNode
+    pageTitle?: string
+}
 
 export function StandardLayout({
     children,
@@ -11,7 +19,7 @@ export function StandardLayout({
     subHeadline,
     actions,
     pageTitle,
-}) {
+}: Props) {
     const [showMenu, setShowMenu] = useState(false)
 
     function handleShowMenu() {

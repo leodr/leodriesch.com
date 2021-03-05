@@ -2,7 +2,12 @@ import { Transition } from "@headlessui/react"
 import Link from "next/link"
 import { Logo } from "./Logo"
 
-export function MobileMenu({ show, onHide }) {
+interface Props {
+    show: boolean
+    onHide: VoidFunction
+}
+
+export function MobileMenu({ show, onHide }: Props) {
     return (
         <Transition
             show={show}

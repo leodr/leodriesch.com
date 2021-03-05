@@ -3,8 +3,17 @@ import clsx from "clsx"
 import { Spinner } from "components/Spinner"
 import { AnimatePresence, motion } from "framer-motion"
 import { StandardLayout } from "layouts/StandardLayout"
-import { useEffect, useState } from "react"
+import { FormEvent, ReactNode, useEffect, useState } from "react"
 import tinykeys from "tinykeys"
+
+interface FormElements extends HTMLFormControlsCollection {
+    firstName: HTMLInputElement
+    emailAddress: HTMLInputElement
+    message: HTMLInputElement
+}
+interface ContactPageFormElement extends HTMLFormElement {
+    readonly elements: FormElements
+}
 
 export default function ContactPage() {
     const [submissionState, setSubmissionState] = useState("idle")
@@ -24,10 +33,10 @@ export default function ContactPage() {
         }
     }, [isDialogOpen])
 
-    async function handleSubmit(event) {
+    async function handleSubmit(event: FormEvent<ContactPageFormElement>) {
         event.preventDefault()
 
-        const formElements = event.target.elements
+        const formElements = (event.target as ContactPageFormElement).elements
         const firstName = formElements.firstName.value
         const email = formElements.emailAddress.value
         const message = formElements.message.value
@@ -305,7 +314,7 @@ export default function ContactPage() {
     )
 }
 
-ContactPage.getLayout = (page) => (
+ContactPage.getLayout = (page: ReactNode) => (
     <StandardLayout
         pageTitle="Contact"
         headline="Get in Touch With Me"

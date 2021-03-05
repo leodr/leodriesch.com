@@ -2,6 +2,16 @@ import { format } from "date-fns"
 import Image from "next/image"
 import Link from "next/link"
 
+interface Props {
+    category: string
+    title: string
+    intro: string
+    readTimeInMinutes: number
+    publishingDate: Date
+    imageSrc: string
+    href: string
+}
+
 export function BlogCard({
     category,
     title,
@@ -10,7 +20,7 @@ export function BlogCard({
     publishingDate,
     imageSrc,
     href,
-}) {
+}: Props) {
     return (
         <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
             <div className="flex-shrink-0 relative">

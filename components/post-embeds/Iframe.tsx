@@ -1,4 +1,8 @@
-export function Iframe({ src }) {
+interface Props {
+    src: string
+}
+
+export function Iframe({ src }: Props) {
     return (
         <div className="-mx-3 sm:-mx-6 overflow-hidden shadow-lg sm:rounded-md aspect-w-3 aspect-h-3 sm:aspect-h-2">
             <iframe

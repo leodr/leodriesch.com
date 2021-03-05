@@ -1,4 +1,10 @@
-export function SectionHeader({ title, headline, subHeadline }) {
+interface Props {
+    title: string
+    headline: string
+    subHeadline: string
+}
+
+export function SectionHeader({ title, headline, subHeadline }: Props) {
     return (
         <div className="text-center">
             <h3 className="text-base font-semibold text-indigo-600 tracking-wide uppercase mb-1">
