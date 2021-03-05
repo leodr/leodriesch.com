@@ -1,8 +1,9 @@
 import { DefaultSeo } from "next-seo"
 import Head from "next/head"
+import "styles/blog.css"
+import "styles/fonts.css"
+import "styles/globals.css"
 import "tailwindcss/tailwind.css"
-import "../styles/blog.css"
-import "../styles/globals.css"
 
 export default function CustomApp({ Component, pageProps }) {
     const getLayout = Component.getLayout || ((page) => page)
