@@ -18,6 +18,13 @@ const withMDX = createMdxPlugin({
 module.exports = withImages(
     withMDX({
         pageExtensions: ["tsx", "mdx"],
+        future: {
+            webpack5: true,
+            strictPostcssConfiguration: true,
+        },
+        images: {
+            domains: ["avatars1.githubusercontent.com"],
+        },
         webpack(config) {
             config.module.rules.unshift({
                 test: /\.tsx?$/,
@@ -25,9 +32,6 @@ module.exports = withImages(
             })
 
             return config
-        },
-        images: {
-            domains: ["avatars1.githubusercontent.com"],
         },
     })
 )
