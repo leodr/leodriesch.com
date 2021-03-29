@@ -1,0 +1,72 @@
+import { BlogLayout } from "layouts/BlogLayout"
+import headSrc from "./head.jpg"
+import { Iframe } from "components/post-embeds/Iframe"
+
+export const meta = {
+  category: "react",
+  headImage: headSrc,
+  intro: "Lorem ipsum dolor sit amet.",
+  publishDate: "2021-03-24",
+  slug: "puppeteer-testing-in-github-actions",
+  title: "5 React Fundamentals I Recently Picked Up",
+}
+
+export default ({ children }) => <BlogLayout meta={meta}>{children}</BlogLayout>
+
+At work I've recently been tasked to fix a bug on a browser extension called
+[clipinc®](https://github.com/TobitSoftware/clipinc) that we developed.
+
+It basically records Spotify songs from their web application as you listen to
+them and saves them as MP3-files to your disk.
+
+The recordings should also have meaningful metadata in form of ID3 tags, which
+specify the artist, album, track name and more. And to retrieve this data, we
+basically inject a script into the Spotify website, which then crawls their
+HTML.
+
+As you might imagine, whenever they change up the structure of their HTML, our
+"crawler" may break. So I wanted to get an automated way of notifying me
+whenever that happens.
+
+The easiest - and cheapest - way I could think of was using GitHub Actions on a
+CRON schedule, so it would check every 4 hours or so if the crawling still
+works.
+
+## Headless Chromium is not Chrome
+
+The `puppeteer` package comes with a default installation of Chromium. That is
+nice and sufficient for lots of use cases, but it has some restrictions on what
+you can do with it.
+
+For example, you cannot play Netflix or Spotify in Chromium, because they're
+missing certain certificates.
+
+So I had to launch a full version of Chrome.
+
+Luckily, most of the GitHub Action Environments come with a
+[preinstalled version](https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md#browsers-and-drivers)
+of Chrome.
+
+I used the [`chrome-launcher`](https://www.npmjs.com/package/chrome-launcher)
+package to obtain the location of the Chrome installation automatically.
+
+Now I could launch a full (non-headless) version of Chrome:
+
+```js
+const ChromeLauncher = require("chrome-launcher")
+const puppeteer = require("puppeteer")
+
+const browser = await puppeteer.launch({
+  headless: false,
+  executablePath: ChromeLauncher.Launcher.getFirstInstallation(),
+})
+```
+
+## GitHub Action machines have no display
+
+This one seems quite obvious now that I think about it, but I expected headfull
+chrome to work the same way even without a display. I mean nobody could see it,
+but if you unplug the display from your computer its not like Chrome would not
+work anymore.
+
+My first failed GitHub Action run proved me wrong though.
