@@ -25,6 +25,7 @@ module.exports = withImages(
         images: {
             domains: ["avatars1.githubusercontent.com"],
         },
+        reactStrictMode: true,
         webpack(config) {
             config.module.rules.unshift({
                 test: /\.tsx?$/,
