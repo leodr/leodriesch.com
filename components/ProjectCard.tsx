@@ -1,3 +1,4 @@
+import { ChevronRightIcon } from "@heroicons/react/solid"
 import { ProjectColor } from "lib/data/projects/getAllProjects"
 import Image from "next/image"
 import Link from "next/link"
@@ -32,18 +33,7 @@ export function ProjectCard({ title, subtitle, href, imageSrc, color }: Props) {
                                     className={`mt-8 bg-white border border-transparent rounded-md shadow pl-6 pr-4 py-3 inline-flex items-center text-base font-medium text-${color}-600 hover:bg-${color}-50`}
                                 >
                                     Read more{" "}
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        className="w-5 h-5 ml-3"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
+                                    <ChevronRightIcon className="w-5 h-5 ml-3" />
                                 </a>
                             </Link>
                         </div>
