@@ -2,23 +2,15 @@ const defaultTheme = require("tailwindcss/defaultTheme")
 const colors = require("tailwindcss/colors")
 
 module.exports = {
-    purge: {
-        content: [
-            "./components/**/*.{js,jsx,ts,tsx,vue}",
-            "./layouts/**/*.{js,jsx,ts,tsx,vue}",
-            "./lib/**/*.{js,jsx,ts,tsx,vue}",
-            "./pages/**/*.{js,jsx,ts,tsx,vue}",
-            "./styles/**/*.{js,jsx,ts,tsx,vue}",
-            "./tailwind-safelist",
-        ],
-        options: {
-            /**
-             * Safelist all non-prefixed text- and background-colors because we
-             * need them for the project cards.
-             */
-            safelist: [/^(bg|text)-[\w-]*-[\d]{2,3}$/],
-        },
-    },
+    mode: "jit",
+    purge: [
+        "./components/**/*.{js,jsx,ts,tsx,vue}",
+        "./layouts/**/*.{js,jsx,ts,tsx,vue}",
+        "./lib/**/*.{js,jsx,ts,tsx,vue}",
+        "./pages/**/*.{js,jsx,ts,tsx,vue}",
+        "./styles/**/*.{js,jsx,ts,tsx,vue}",
+        "./tailwind-safelist",
+    ],
     theme: {
         extend: {
             fontFamily: {
