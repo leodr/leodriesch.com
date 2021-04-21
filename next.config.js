@@ -17,7 +17,7 @@ const withMDX = createMdxPlugin({
 
 module.exports = withImages(
     withMDX({
-        pageExtensions: ["tsx", "mdx"],
+        pageExtensions: ["ts", "tsx", "mdx"],
         future: {
             webpack5: true,
             strictPostcssConfiguration: true,

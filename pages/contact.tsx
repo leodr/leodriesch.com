@@ -45,7 +45,7 @@ export default function ContactPage() {
         setSubmissionState("pending")
 
         try {
-            const response = await fetch("/api/sendMail", {
+            const response = await fetch("/api/contact", {
                 method: "POST",
                 body: JSON.stringify({ firstName, email, message }),
                 headers: { "Content-Type": "application/json" },

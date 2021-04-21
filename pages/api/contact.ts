@@ -12,7 +12,7 @@ const schema = yup.object().shape({
     message: yup.string().required(),
 })
 
-export default async function sendMailHandler(
+export default async function contactHandler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
