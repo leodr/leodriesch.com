@@ -1,0 +1,399 @@
+import { BlogLayout } from "layouts/BlogLayout"
+import headSrc from "./head.jpg"
+
+export const meta = {
+  category: "react",
+  headImage: headSrc,
+  intro: "Lorem ipsum dolor sit amet.",
+  publishDate: "2020-12-03",
+  slug: "react-fundamentals-i-recently-learned",
+  title: "5 React Fundamentals I Recently Picked Up",
+}
+
+export default ({ children }) => <BlogLayout meta={meta}>{children}</BlogLayout>
+
+Exploration of alternative syntaxes for defining React elements apart from JSX.
+
+---
+
+JSX is one of the most controversial topics about React. When it came out, most
+people complained about this HTML-like syntax which was basically everything but
+HTML.
+
+In the past years, more declarative UI frameworks got released apart from React.
+SwiftUI and Jetpack Compose have a very different syntax for defining the View
+tree.
+
+Sebastian Markbage, one of the React Core Team members, tweeted at some point
+that
+[he considers JSX a bug](https://twitter.com/sebmarkbage/status/1255886278437945344).
+
+I wanted to explore some ways JSX could be replaced by a function-based
+JavaScript interface for declaring React elements, and here is some of the stuff
+I came up with:
+
+## Regular JSX
+
+Nothing special here, this is the snippet we will transform into different
+syntaxes.
+
+> This code-snippet comes from the TailwindCSS v1 documentation:
+> https://v1.tailwindcss.com/
+
+```jsx
+function App() {
+  return (
+    <div className="md:flex bg-white rounded-lg p-6">
+      <img
+        className="h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6"
+        src="avatar.jpg"
+        alt=""
+      />
+      <div className="text-center md:text-left">
+        <h2 className="text-lg">Erin Lindford</h2>
+        <div className="text-purple-500">Product Engineer</div>
+        <div className="text-gray-600">erinlindford@example.com</div>
+        <div className="text-gray-600">(555) 765-4321</div>
+      </div>
+    </div>
+  )
+}
+```
+
+## Non-JSX React
+
+The same UI without using JSX would look like this:
+
+```js
+function App() {
+  return React.createElement(
+    "div",
+    {
+      className: "md:flex bg-white rounded-lg p-6",
+    },
+    React.createElement("img", {
+      className:
+        "h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6",
+      src: "avatar.jpg",
+      alt: "",
+    }),
+    React.createElement(
+      "div",
+      {
+        className: "text-center md:text-left",
+      },
+      React.createElement("h2", { className: "text-lg" }, "Erin Lindford"),
+      React.createElement(
+        "div",
+        {
+          className: "text-purple-500",
+        },
+        "Product Engineer"
+      ),
+      React.createElement(
+        "div",
+        { className: "text-gray-600" },
+        "erinlindford@example.com"
+      ),
+      React.createElement(
+        "div",
+        { className: "text-gray-600" },
+        "(555) 765-4321"
+      )
+    )
+  )
+}
+```
+
+This is not really readable at all in my opinion and it makes sense why JSX was
+invented in the first place, when this was the alternative.
+
+## Ditching `React.createElement`
+
+It should be pretty easy to ditch `React.createElement("div", ...)` with one
+function for every HTML and SVG element.
+
+This makes the syntax a lot more readable:
+
+```jsx
+function App() {
+  return div(
+    {
+      className: "md:flex bg-white rounded-lg p-6",
+    },
+    [
+      img({
+        className:
+          "h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6",
+        src: "avatar.jpg",
+        alt: "",
+      }),
+      div(
+        {
+          className: "text-center md:text-left",
+        },
+        [
+          h2({ className: "text-lg" }, "Erin Lindford"),
+          div(
+            {
+              className: "text-purple-500",
+            },
+            "Product Engineer"
+          ),
+          div(
+            {
+              className: "text-gray-600",
+            },
+            "erinlindford@example.com"
+          ),
+          div(
+            {
+              className: "text-gray-600",
+            },
+            "(555) 765-4321"
+          ),
+        ]
+      ),
+    ]
+  )
+}
+```
+
+## Children as the first argument?
+
+SwiftUI uses a syntax that has some props before the children and certain
+modifiers after all children:
+
+```swift
+import SwiftUI
+
+struct ContentView: View {
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Turtle Rock")
+                .font(.title)
+
+            HStack {
+                Text("Joshua Tree National Park")
+                    .font(.subheadline)
+                Spacer()
+                Text("California")
+                    .font(.subheadline)
+            }
+        }
+        .padding()
+    }
+}
+```
+
+So maybe everything becomes more readable when we move the `children` to the
+first arguments and the props last?
+
+```jsx
+function App() {
+  return div(
+    [
+      img({
+        className:
+          "h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6",
+        src: "avatar.jpg",
+        alt: "",
+      }),
+      div(
+        h2("Erin Lindford", {
+          className: "text-lg",
+        }),
+        div("Product Engineer", {
+          className: "text-purple-500",
+        }),
+        div("erinlindford@example.com", { className: "text-gray-600" }),
+        div("(555) 765-4321", {
+          className: "text-gray-600",
+        }),
+        {
+          className: "text-center md:text-left",
+        }
+      ),
+    ],
+    {
+      className: "md:flex bg-white rounded-lg p-6",
+    }
+  )
+}
+```
+
+This actually works pretty decently in my opinion. Especially for text-only
+tags, like the `h2` in the example.
+
+## One parameter with props, thats it
+
+An API with a variable amount of arguments with the last one being the props
+might be kind of strange.
+
+We could do everything within one parameter that takes an object with all the
+props, including `children` (AFAIK `React.createElement` also accepts `children`
+in props):
+
+```jsx
+function App() {
+  return div({
+    children: [
+      img({
+        className:
+          "h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6",
+        src: "avatar.jpg",
+        alt: "",
+      }),
+      div({
+        children: [
+          h2({
+            children: "Erin Lindford",
+            className: "text-lg",
+          }),
+          div({
+            children: "Product Engineer",
+            className: "text-purple-500",
+          }),
+          div({
+            children: "erinlindford@example.com",
+            className: "text-gray-600",
+          }),
+          div({
+            children: "(555) 765-4321",
+            className: "text-gray-600",
+          }),
+        ],
+        className: "text-center md:text-left",
+      }),
+    ],
+    className: "md:flex bg-white rounded-lg p-6",
+  })
+}
+```
+
+This one is a bit trash IMO.
+
+## Chained notation, function calls
+
+We could also ditch the props object and use chained method calls to attach
+props to our elements, kind of like SwiftUI does.
+
+```jsx
+function App() {
+  return div(
+    img("avatar.png")
+      .className(
+        "h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6"
+      )
+      .alt(""),
+    div(
+      h2("Erin Lindford").className("text-lg"),
+      div("Product Engineer").className("text-purple-500"),
+      div("erinlindford@example.com").className("text-gray-600"),
+      div("(555) 765-4321").className("text-gray-600")
+    ).className("text-center md:text-left")
+  ).className("md:flex bg-white rounded-lg p-6")
+}
+```
+
+I quite like this one. The only bigger problem I see is that the props for
+elements that have lots of children are very far apart from the line where the
+function gets called.
+
+## Function calls, no custom components
+
+The styling with `className` was a little bit nasty in the above example.
+
+React could possibly provide an abstraction above CSS using a syntax similar to
+this:
+
+```jsx
+function App() {
+  return div(
+    img("avatar.png")
+      .alt("")
+      .height(16, { md: 24 })
+      .width(16, { md: 24 })
+      .borderRadius(Infinity)
+      .marginX("auto"),
+    div(
+      h2("Erin Lindford").textSize("lg"),
+      div("Product Engineer").textColor(Purple[500]),
+      div("erinlindford@example.com").textColor(Gray[600]),
+      div("(555) 765-4321").textColor(Gray[600])
+    ).textAlign("center", {
+      md: "left",
+    })
+  )
+    .layout({ md: "flex" })
+    .background("white")
+    .borderRadius("lg")
+    .padding(6)
+}
+```
+
+## Custom Component functions, children as parameters, props as chained method calls
+
+This one looks quite good in my opinion, however it is a pretty big abstraction
+on top of the DOM. This also expects to use some kind of styling system like
+Tailwind.
+
+```jsx
+function App() {
+  return Row(
+    Image("avatar.png")
+      .alt("")
+      .height(16, { md: 24 })
+      .width(16, { md: 24 })
+      .borderRadius(Infinity)
+      .marginX("auto"),
+    Column(
+      Heading2("Erin Lindford").textSize("lg"),
+      Text("Product Engineer").textColor(Purple[500]),
+      Text("erinlindford@example.com").textColor(Gray[600]),
+      Text("(555) 765-4321").textColor(Gray[600])
+    ).alignItems("center", {
+      md: "start",
+    })
+  )
+    .direction("y", { md: "x" })
+    .background("white")
+    .borderRadius("lg")
+    .padding(6)
+}
+```
+
+I think here we are in dream-land beauty territory. I think it would be even
+better, if we could configure our formatter to break on every chained method
+call:
+
+```jsx
+// prettier-ignore
+function App() {
+  return Row(
+    Image("avatar.png")
+      .alt("")
+      .height(16, { md: 24 })
+      .width(16, { md: 24 })
+      .borderRadius(Infinity)
+      .marginX("auto"),
+    Column(
+      Heading2("Erin Lindford")
+        .textSize("lg"),
+      Text("Product Engineer")
+        .textColor(Purple[500]),
+      Text("erinlindford@example.com")
+        .textColor(Gray[600]),
+      Text("(555) 765-4321")
+        .textColor(Gray[600])
+    )
+      .alignItems("center", { md: "start" })
+  )
+    .direction("y", { md: "x" })
+    .background("white")
+    .borderRadius("lg")
+    .padding(6);
+}
+```
+
+I quite like this one!
