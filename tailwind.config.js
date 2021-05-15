@@ -9,6 +9,7 @@ module.exports = {
         "./lib/**/*.{js,jsx,ts,tsx,vue}",
         "./pages/**/*.{js,jsx,ts,tsx,vue}",
         "./styles/**/*.{js,jsx,ts,tsx,vue}",
+        "./token-colorizer.js",
         "./tailwind-safelist",
     ],
     theme: {
