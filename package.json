@@ -32,6 +32,7 @@
         "next": "^10.2.0",
         "next-images": "^1.7.0",
         "next-seo": "^4.24.0",
+        "node-html-to-image": "^3.1.0",
         "postcss": "^8.2.15",
         "react": "17.0.2",
         "react-dom": "17.0.2",
