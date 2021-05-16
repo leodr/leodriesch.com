@@ -1,0 +1,19 @@
+{
+    "background_color": "#f9fafb",
+    "display": "standalone",
+    "icons": [
+        {
+            "sizes": "192x192",
+            "src": "/icons/android-chrome-192x192.png",
+            "type": "image/png"
+        },
+        {
+            "sizes": "512x512",
+            "src": "/icons/android-chrome-512x512.png",
+            "type": "image/png"
+        }
+    ],
+    "name": "Leo Driesch",
+    "short_name": "Leo Driesch",
+    "theme_color": "#f9fafb"
+}

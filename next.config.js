@@ -1,45 +1,37 @@
-const createMdxPlugin = require("@next/mdx")
-const rehypePrism = require("@mapbox/rehype-prism")
-const visit = require("unist-util-visit")
-
 /**
- * MDX configuration heavily inspired from Tailwind blog, see
- * https://github.com/tailwindlabs/blog.tailwindcss.com/blob/53170d9efa6439bafc2e15dbf80dc72a5d2a4b4f/next.config.js
+ * MDX configuration inspired by Tailwind blog, see https://git.io/JslDe
  */
 
-const tokenClassNames = {
-    tag: "text-red-300",
-    "attr-name": "text-yellow-300",
-    "attr-value": "text-green-300",
-    deleted: "text-red-300",
-    inserted: "text-green-300",
-    punctuation: "text-white-300",
-    keyword: "text-purple-300",
-    string: "text-green-300",
-    function: "text-blue-300",
-    boolean: "text-red-300",
-    comment: "text-gray-400 italic",
-}
+const createMdxPlugin = require("@next/mdx")
+const rehypePrism = require("@mapbox/rehype-prism")
+const withImages = require("next-images")
+const tokenColorizer = require("./token-colorizer")
 
 const withMDX = createMdxPlugin({
     options: {
         remarkPlugins: [],
-        rehypePlugins: [
-            rehypePrism,
-            () => {
-                return (tree) => {
-                    visit(tree, "element", (node) => {
-                        let [token, type] = node.properties.className || []
-                        if (token === "token") {
-                            node.properties.className = [tokenClassNames[type]]
-                        }
-                    })
-                }
-            },
-        ],
+        rehypePlugins: [rehypePrism, tokenColorizer],
     },
 })
 
-module.exports = withMDX({
-    pageExtensions: ["js", "jsx", "mdx"],
-})
+module.exports = withImages(
+    withMDX({
+        pageExtensions: ["ts", "tsx", "mdx"],
+        future: {
+            webpack5: true,
+            strictPostcssConfiguration: true,
+        },
+        images: {
+            domains: ["avatars1.githubusercontent.com"],
+        },
+        reactStrictMode: true,
+        webpack(config) {
+            config.module.rules.unshift({
+                test: /\.tsx?$/,
+                loader: require.resolve("./glob-loader"),
+            })
+
+            return config
+        },
+    })
+)

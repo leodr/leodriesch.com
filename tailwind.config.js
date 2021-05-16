@@ -1,17 +1,40 @@
 const defaultTheme = require("tailwindcss/defaultTheme")
+const colors = require("tailwindcss/colors")
 
 module.exports = {
-    purge: {
-        content: ["./src/**/*.{js,mdx}"],
-        options: {
-            safelist: [/^(bg|text)-[\w-]*-[\d]{2,3}$/],
-        },
-    },
+    mode: "jit",
+    purge: [
+        "./components/**/*.{js,jsx,ts,tsx,vue}",
+        "./layouts/**/*.{js,jsx,ts,tsx,vue}",
+        "./lib/**/*.{js,jsx,ts,tsx,vue}",
+        "./pages/**/*.{js,jsx,ts,tsx,vue}",
+        "./styles/**/*.{js,jsx,ts,tsx,vue}",
+        "./token-colorizer.js",
+        "./tailwind-safelist",
+    ],
     theme: {
         extend: {
             fontFamily: {
                 sans: ["Inter var", ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                rose: colors.rose,
+                orange: colors.orange,
+            },
+            typography: (theme) => ({
+                DEFAULT: {
+                    css: {
+                        code: {
+                            backgroundColor: theme("colors.gray.100"),
+                            borderRadius: theme("borderRadius.md"),
+                            padding: `${theme("padding.1")} ${theme(
+                                "padding.px"
+                            )}`,
+                            color: theme("colors.pink.600"),
+                        },
+                    },
+                },
+            }),
         },
     },
     variants: {

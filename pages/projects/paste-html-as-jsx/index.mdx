@@ -1,0 +1,208 @@
+import { ProjectLayout } from "layouts/ProjectLayout"
+import headSrc from "./paste-html-as-jsx.png"
+
+export const meta = {
+  color: "rose",
+  headImage: headSrc,
+  intro:
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda dicta perspiciatis aperiam totam!",
+  publishDate: "2020-12-04T18:17:32.068Z",
+  slug: "paste-html-as-jsx",
+  title: "A VSCode Extension For Interop Between HTML And JSX",
+}
+
+export default ({ children }) => (
+  <ProjectLayout meta={meta}>{children}</ProjectLayout>
+)
+
+# Learned from Beginners Guide to React
+
+Recently I've gone through
+[Kent C. Dodds' "The Beginner's Guide to React"](https://egghead.io/courses/the-beginner-s-guide-to-react)
+and even though I've been working with React for a while, I learned a couple of
+things, so I wanted to write about them. The course is more in depth though, so
+I recommend you go through it yourself and see if you can also pick up some new
+knowledge about the React basics along the way!
+
+## PropTypes are actually a simple function
+
+Ever since I started using React I have been using the `prop-types` package from
+the React team to verify my props. I actually never thought about how that works
+internally, turns out these are just simple functions.
+
+You could easily write your own PropType-Checker with this signature:
+
+```jsx
+function PropChecker(props, propName, componentName) {
+  // ...
+}
+
+MyComponent.propTypes = {
+  myProp: PropChecker,
+}
+```
+
+You will probably never need to use this in day-to-day application development,
+but maybe you can take advantage of this when writing a React library and you
+want to provide a great developer experience to your users by validating the
+props to prevent strange behavior.
+
+## Consecutive `ReactDOM.render` calls will rerender your tree
+
+I always thought that `ReactDOM.render` will unmount everything below the target
+element and mount a completely new React tree. But actually, if you have
+rendered to that node before, it will just rerender the tree, just like if you
+trigger a rerender through Reacts regular mechanisms.
+
+So I still would not say that calling `ReactDOM.render` multiple times is
+neccesarily good, but it is definitely not as bad as I thought!
+
+## Use Native Forms
+
+I have gotten this bad habid of omitting the `<form>` tag and using the
+`onSubmit` method for my forms. Most of the times I would just throw together a
+couple of `<input />` elements and a `<button type="button">` to submit the form
+via `onClick`. This is not actually advices for accessibility reasons and also
+disables some other goodies that the browser gives to you for free, like
+submitting a form by pressing enter in one of the form fields.
+
+This way you also do not have to track form values inside your state if you only
+need them on submit, which increases performance.
+
+Of course there is always `[react-hook-form](https://react-hook-form.com/)` to
+help you with all these things aswell.
+
+## Colocate State
+
+At my dayjob we use a lot of Redux and therefore I have seen many cases where
+this should be taken more seriously.
+
+Sometimes we need state to reach across multiple children so we lift it up or
+even extract it into context or another state management solution like Redux.
+But we rarely pay attention to where we could colocate state to simplify our
+code.
+
+So maybe you should also start looking for places in your source code where you
+can push state further to the places where it is needed.
+
+## Use a Status State for HTTP Requests
+
+So I've done a lot of ways to to HTTP requests. I've had error state and checked
+that for null like this:
+
+```jsx
+export default function App() {
+  const [data, setData] = useState()
+  const [error, setError] = useState()
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    const username = event.target.elements.username.value
+
+    fetch(`https://api.github.com/users/${username}/repos`)
+      .then((response) => response.json())
+      .then((responseData) => setData(responseData))
+      .catch((e) => setError(e))
+  }
+
+  let content
+
+  if (error) {
+    content = <p>Oops, something has gone wrong...</p>
+  }
+
+  if (data) {
+    content = <pre>{JSON.stringify(data, null, 2)}</pre>
+  }
+
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <input placeholder="GitHub username" name="username" />
+        <button type="submit">Load Repositories</button>
+      </form>
+      <div>{content ?? "Go ahead and fetch some repositories!"}</div>
+    </>
+  )
+}
+```
+
+But now if a query fails and we set the `error` state, it will stay in this
+state forever, because we forgot to clear it out. Also the code is quite
+dependent on the order of the `if`-statements and their return statements. If we
+would place the `if(data)` statement above the error one, we would have the same
+problem, but that errors for subsequent requests would be ignored.
+
+The most error resilient way to code this is using a status state field (could
+you even call this a state machine)?:
+
+```jsx
+export default function App() {
+  const [data, setData] = useState()
+  const [status, setStatus] = useState("idle")
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    const username = event.target.elements.username.value
+
+    setStatus("pending")
+    fetch(`https://api.github.com/users/${username}/repos`)
+      .then((response) => response.json())
+      .then((responseData) => {
+        setStatus("resolved")
+        setData(responseData)
+      })
+      .catch((e) => {
+        // logErrorToService(e);
+        setStatus("rejected")
+      })
+  }
+
+  let content
+
+  if (status === "idle") {
+    content = <p>Go ahead and fetch some user repos!</p>
+  }
+
+  if (status === "pending") {
+    content = <p>Loading...</p>
+  }
+
+  if (status === "rejected") {
+    content = <p>Oops, something has gone wrong...</p>
+  }
+
+  if (status === "resolved") {
+    content = <pre>{JSON.stringify(data, null, 2)}</pre>
+  }
+
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <input placeholder="GitHub username" name="username" />
+        <button type="submit">Load Repositories</button>
+      </form>
+      <div>{content}</div>
+    </>
+  )
+}
+```
+
+This way you can easily see which component will get rendered in which state,
+which is what React is all about.
+
+You also do not rely on the order of if statements anymore and easily
+distinguish idle and loading states.
+
+Check out the CodeSandbox here:
+
+[https://codesandbox.io/s/demo-of-using-a-status-for-http-requests-in-react-zxb1j?fontsize=14&hidenavigation=1&theme=dark](https://codesandbox.io/s/demo-of-using-a-status-for-http-requests-in-react-zxb1j?fontsize=14&hidenavigation=1&theme=dark)
+
+So these are some of the things I picked up in "The Beginner's Guide to React".
+I have been working with React for over a year now, but there is always
+something new you can learn!
+
+Check out "The Beginner's Guide to React" for yourself and tell me about what
+you learned on Twitter!
+
+Best Wishes, Leo Driesch
