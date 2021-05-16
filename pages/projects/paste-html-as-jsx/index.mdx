@@ -1,4 +1,4 @@
-import { BlogLayout } from "layouts/BlogLayout"
+import { ProjectLayout } from "layouts/ProjectLayout"
 import headSrc from "./paste-html-as-jsx.png"
 
 export const meta = {
@@ -11,7 +11,9 @@ export const meta = {
   title: "A VSCode Extension For Interop Between HTML And JSX",
 }
 
-export default ({ children }) => <BlogLayout meta={meta}>{children}</BlogLayout>
+export default ({ children }) => (
+  <ProjectLayout meta={meta}>{children}</ProjectLayout>
+)
 
 # Learned from Beginners Guide to React
 
