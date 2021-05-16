@@ -76,6 +76,12 @@ export function StandardLayout({
                                 </div>
                             </div>
                             <div className="hidden md:flex md:space-x-10">
+                                <a
+                                    href="https://changelog.leodriesch.com/"
+                                    className="font-medium text-gray-500 hover:text-gray-900"
+                                >
+                                    Changelog
+                                </a>
                                 <Link href="/projects">
                                     <a className="font-medium text-gray-500 hover:text-gray-900">
                                         Projects
