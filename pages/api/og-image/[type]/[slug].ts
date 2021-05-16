@@ -1,3 +1,4 @@
+import chrome from "chrome-aws-lambda"
 import { format } from "date-fns"
 import { getAllPosts, PostData } from "lib/data/posts/getAllPosts"
 import { getAllProjects, ProjectData } from "lib/data/projects/getAllProjects"
@@ -49,7 +50,27 @@ export default async function ogImageHandler(
         </div>`
     }
 
+    const options = process.env.AWS_REGION
+        ? {
+              args: chrome.args,
+              executablePath: await chrome.executablePath,
+              headless: chrome.headless,
+          }
+        : {
+              args: [],
+              executablePath:
+                  process.platform === "win32"
+                      ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+                      : process.platform === "linux"
+                      ? "/usr/bin/google-chrome"
+                      : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+          }
+
     const image = await nodeHtmlToImage({
+        puppeteerArgs: {
+            ...options,
+            defaultViewport: { width: 1200, height: 600 },
+        },
         html: /* HTML */ `<html>
             <head>
                 <meta charset="UTF-8" />
@@ -203,7 +224,6 @@ export default async function ogImageHandler(
                 </div>
             </body>
         </html>`,
-        puppeteerArgs: { defaultViewport: { width: 1200, height: 600 } },
     })
 
     res.setHeader(
