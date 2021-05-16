@@ -14,7 +14,6 @@ export function getReadTimeInMinutes(Component: ReactComponent): number {
     const $ = cheerio.load(html)
 
     $("code").remove()
-    // @ts-expect-error: This does exist.
     const text = $.text()
 
     const words = text.split(/\s/g).length
