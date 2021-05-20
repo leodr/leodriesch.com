@@ -5,7 +5,8 @@ import { Iframe } from "components/post-embeds/Iframe"
 export const meta = {
   category: "react",
   headImage: headSrc,
-  intro: "Lorem ipsum dolor sit amet.",
+  intro:
+    "I've been coding with React for a while now, but sometimes going back to the basics reveals interesting things!",
   publishDate: "2020-12-03",
   slug: "react-fundamentals-i-recently-learned",
   title: "5 React Fundamentals I Recently Picked Up",
@@ -16,17 +17,15 @@ export default ({ children }) => <BlogLayout meta={meta}>{children}</BlogLayout>
 Recently I've gone through
 [Kent C. Dodds' "The Beginner's Guide to React"](https://egghead.io/courses/the-beginner-s-guide-to-react)
 and even though I've been working with React for a while, I learned a couple of
-things, so I wanted to write about them. The course is more in depth though, so
-I recommend you go through it yourself and see if you can also pick up some new
-knowledge about the React basics along the way!
+new things.
 
-## PropTypes are actually a simple function
+## Proptypes Are Simple Functions
 
-Ever since I started using React I have been using the `prop-types` package from
-the React team to verify my props. I actually never thought about how that works
-internally, turns out these are just simple functions.
+Since I started using React, I've used the `prop-types` package to verify props.
+I never actually thought about how this worked, but it turns out that a
+prop-type is a simple function that returns an `Error` if the input is invalid.
 
-You could easily write your own PropType-Checker with this signature:
+So you could write your own "prop-type-checker":
 
 ```jsx
 function PropChecker(props, propName, componentName) {
@@ -38,53 +37,52 @@ MyComponent.propTypes = {
 }
 ```
 
-You will probably never need to use this in day-to-day application development,
-but maybe you can take advantage of this when writing a React library and you
-want to provide a great developer experience to your users by validating the
-props to prevent strange behavior.
+You'll probably never need this in day-to-day application development, but you
+could use this if you're writing a React library and you want to give your users
+a great developer experience by validating the props to prevent weird behavior.
 
-## Consecutive `ReactDOM.render` calls will rerender your tree
+## Successive `ReactDOM.render` Calls Will Re-render Your Tree
 
-I always thought that `ReactDOM.render` will unmount everything below the target
-element and mount a completely new React tree. But actually, if you have
-rendered to that node before, it will just rerender the tree, just like if you
-trigger a rerender through Reacts regular mechanisms.
+I used to think that `ReactDOM.render` would unmount everything below the target
+element and mount a completely new React tree. But in reality, if you previously
+rendered to that node, it will just re-render the tree, just like when you
+trigger a re-render through React state updates.
 
-So I still would not say that calling `ReactDOM.render` multiple times is
-neccesarily good, but it is definitely not as bad as I thought!
+I'd still say that calling `ReactDOM.render` multiple times is probably not
+good, but it's definitely not as bad as I thought!
 
-## Use Native Forms
+## Using Native Forms Gives You Lots of Goodies
 
-I have gotten this bad habid of omitting the `<form>` tag and using the
-`onSubmit` method for my forms. Most of the times I would just throw together a
-couple of `<input />` elements and a `<button type="button">` to submit the form
-via `onClick`. This is not actually advices for accessibility reasons and also
-disables some other goodies that the browser gives to you for free, like
-submitting a form by pressing enter in one of the form fields.
+I've gotten into the bad habit of leaving out the `<form>` tag and using the
+`onSubmit` method for my forms. Most of the time I just threw together a couple
+of `<input />` elements and a `<button type="button">` to submit the form via
+`onClick`.
 
-This way you also do not have to track form values inside your state if you only
-need them on submit, which increases performance.
+Not only does this suck for accessibility reasons, but it also misses out on the
+UX patterns that the browser otherwise gives you for free, like submitting a
+form by pressing enter in one of its fields.
 
-Of course there is always `[react-hook-form](https://react-hook-form.com/)` to
-help you with all these things aswell.
+You can also leave these forms uncontrolled and just rely on the
+`onSubmit`-callback of the `<form>` element, which is more performant than
+updating the state on every keystroke (though the difference might not be
+noticable).
 
 ## Colocate State
 
-At my dayjob we use a lot of Redux and therefore I have seen many cases where
-this should be taken more seriously.
+In my day job, we use Redux and so I've seen many cases where this should be
+taken more seriously.
 
-Sometimes we need state to reach across multiple children so we lift it up or
-even extract it into context or another state management solution like Redux.
-But we rarely pay attention to where we could colocate state to simplify our
-code.
+Sometimes we need state to span across many children so we lift it up or even
+extract it into Context or another state management solution like Redux. But we
+rarely pay attention to where we could colocate the state to simplify our code.
 
 So maybe you should also start looking for places in your source code where you
-can push state further to the places where it is needed.
+can push state further to where it's needed.
 
-## Use a Status State for HTTP Requests
+## Use Status Fields More Often
 
-So I've done a lot of ways to to HTTP requests. I've had error state and checked
-that for null like this:
+I've made HTTP requests in many different ways. I've had an error state and
+checked that for null, like this:
 
 ```jsx
 export default function App() {
@@ -123,14 +121,13 @@ export default function App() {
 }
 ```
 
-But now if a query fails and we set the `error` state, it will stay in this
-state forever, because we forgot to clear it out. Also the code is quite
-dependent on the order of the `if`-statements and their return statements. If we
-would place the `if(data)` statement above the error one, we would have the same
-problem, but that errors for subsequent requests would be ignored.
+But now if a query fails and we set the `error` state, it will stay in that
+state forever, because we forgot to clear it. Also, the code is quite dependent
+on the order of the `if`-statements and their return statements. If we placed
+the `if (data)` statement above the error statement, we would have the same
+problem, but the errors for subsequent requests would be ignored.
 
-The most error resilient way to code this is using a status state field (could
-you even call this a state machine)?:
+The most error-tolerant way to code this is to use a status state field:
 
 ```jsx
 export default function App() {
@@ -184,21 +181,25 @@ export default function App() {
 }
 ```
 
-This way you can easily see which component will get rendered in which state,
-which is what React is all about.
+Your request can only ever be in one state. Your logic should resemble that.
 
-You also do not rely on the order of if statements anymore and easily
+This way you can see which component is rendered in which state, and that's what
+React is all about.
+
+Also, you no longer have to rely on the order of if statements can and easily
 distinguish idle and loading states.
 
 Check out the CodeSandbox here:
 
 <Iframe src="https://codesandbox.io/embed/demo-of-using-a-status-for-http-requests-in-react-zxb1j?fontsize=14&hidenavigation=1&theme=dark" />
 
-So these are some of the things I picked up in "The Beginner's Guide to React".
-I have been working with React for over a year now, but there is always
-something new you can learn!
+---
 
-Check out "The Beginner's Guide to React" for yourself and tell me about what
-you learned on Twitter!
+So those are some of the things I picked up in "The Beginner's Guide to React".
+I've been working with React for over a year now, but there's always something
+new to learn, maybe even some of the basic stuff!
 
-Best Wishes, Leo Driesch
+I recommend you check out "The Beginner's Guide to React" for yourself and try
+not to skip too much, the best learnings are the patterns we see along the way.
+
+Cheers!
