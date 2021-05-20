@@ -1,0 +1,62 @@
+import { BlogLayout } from "layouts/BlogLayout"
+import headSrc from "./head.jpg"
+
+export const meta = {
+  category: "web-development",
+  headImage: headSrc,
+  intro:
+    "Running code off the main thread is now easier than ever with Webpack 5's native support for web workers.",
+  publishDate: "2021-03-26",
+  slug: "webpack5-webworkers",
+  title: "Using Web Workers with Webpack 5",
+}
+
+export default ({ children }) => <BlogLayout meta={meta}>{children}</BlogLayout>
+
+Whereas you used to have a
+[special loader](https://github.com/webpack-contrib/worker-loader) for using Web
+Workers with Webpack, v5 introduced
+[native support for web workers](https://webpack.js.org/blog/2020-10-10-webpack-5-release/#native-worker-support)
+and made them easy to use in your application.
+
+If you're not familiar with
+[web workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
+yet: They are a way to use multi-threading in web development and let you run
+code off the main thread. You can communicate with them via `postMessage`.
+
+To create a web worker you use the `new Worker` constructor and give it a URL to
+the worker's source code:
+
+```js
+const worker = new Worker("/worker.js")
+```
+
+If you want Webpack to recognize the worker file and run it through its build
+pipeline use the `new URL` constructor:
+
+```js
+const worker = new Worker(new URL("./worker.js", import.meta.url))
+```
+
+Webpack creates a new entry point for your worker and processes all of its files
+with the loaders and plugins you specified. This means you can use
+`import`-statements in your worker as you are used to. Webpack will work its
+usual magic to compile these away, so you don't need
+[native support for `import` in workers](https://caniuse.com/mdn-api_worker_worker_ecmascript_modules),
+which is still pretty sparse at the time of this writing.
+
+You can also import libraries from npm into your worker and reuse code inside
+and outside the worker, if it is compatible with the worker environment.
+
+---
+
+If you want to make working with web workers easier, I recommend using the
+[`comlink`](https://www.npmjs.com/package/comlink) library. It makes
+communicating with your worker as easy as calling a method or accessing a
+property with async/await. No `postMessage` required!
+
+And if you want to learn more about web workers in general, check out
+[this talk](https://youtu.be/7Rrv9qFMWNM) by Surma. He gives a great
+introduction to workers and when you should use them.
+
+Cheers!
