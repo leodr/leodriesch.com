@@ -4,7 +4,6 @@
 
 const createMdxPlugin = require("@next/mdx")
 const rehypePrism = require("@mapbox/rehype-prism")
-const withImages = require("next-images")
 const tokenColorizer = require("./token-colorizer")
 
 const withMDX = createMdxPlugin({
@@ -14,24 +13,21 @@ const withMDX = createMdxPlugin({
     },
 })
 
-module.exports = withImages(
-    withMDX({
-        pageExtensions: ["ts", "tsx", "mdx"],
-        future: {
-            webpack5: true,
-            strictPostcssConfiguration: true,
-        },
-        images: {
-            domains: ["avatars1.githubusercontent.com"],
-        },
-        reactStrictMode: true,
-        webpack(config) {
-            config.module.rules.unshift({
-                test: /\.tsx?$/,
-                loader: require.resolve("./glob-loader"),
-            })
+module.exports = withMDX({
+    pageExtensions: ["ts", "tsx", "mdx"],
+    future: {
+        strictPostcssConfiguration: true,
+    },
+    images: {
+        domains: ["avatars1.githubusercontent.com"],
+    },
+    reactStrictMode: true,
+    webpack(config) {
+        config.module.rules.unshift({
+            test: /\.tsx?$/,
+            loader: require.resolve("./glob-loader"),
+        })
 
-            return config
-        },
-    })
-)
+        return config
+    },
+})
