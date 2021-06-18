@@ -7,7 +7,7 @@ import pages from "../../../pages/blog/**/*.mdx"
 
 interface PostMeta {
     category: string
-    headImage: string
+    headImage: StaticImageData
     intro: string
     publishDate: string
     slug: string

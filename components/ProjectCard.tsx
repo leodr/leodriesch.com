@@ -7,7 +7,7 @@ interface Props {
     title: string
     subtitle: string
     href: string
-    imageSrc: string
+    imageSrc: StaticImageData
     color: ProjectColor
 }
 
@@ -44,6 +44,7 @@ export function ProjectCard({ title, subtitle, href, imageSrc, color }: Props) {
                             className="transform translate-x-6 translate-y-6 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
                             src={imageSrc}
                             alt="App screenshot"
+                            placeholder="blur"
                         />
                     </div>
                 </div>

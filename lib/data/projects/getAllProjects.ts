@@ -19,7 +19,7 @@ export type ProjectColor =
 
 export interface ProjectMeta {
     color: ProjectColor
-    headImage: string
+    headImage: StaticImageData
     intro: string
     publishDate: string
     slug: string

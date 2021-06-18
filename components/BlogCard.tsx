@@ -8,7 +8,7 @@ interface Props {
     intro: string
     readTimeInMinutes: number
     publishingDate: Date
-    imageSrc: string
+    imageSrc: StaticImageData
     href: string
 }
 
@@ -26,10 +26,9 @@ export function BlogCard({
             <div className="flex-shrink-0 relative">
                 <Image
                     src={imageSrc}
-                    width={500}
-                    height={250}
                     objectFit="cover"
                     alt=""
+                    placeholder="blur"
                 />
             </div>
             <div className="flex-1 bg-white p-6 flex flex-col justify-between">
