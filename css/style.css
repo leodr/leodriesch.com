@@ -17,6 +17,7 @@
   --white: #fff;
   --gray: #777;
   --gray-border: #ddd;
+  --surface: #f8f8f8;
 
   --font-mono: "Iosevka Custom Web", "SF Mono", "Consolas", monospace;
   --font-size: 1rem;
@@ -174,25 +175,46 @@ section {
   pointer-events: none;
 }
 
-/* --- Terminal Tree Timeline --- */
+/* --- Timeline --- */
 
 .timeline {
-  font-variant-ligatures: none;
+  padding-left: 1.5em;
 }
 
-.timeline-item > span,
-.tree-line {
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--spacing-md);
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-item > span {
   display: block;
-  white-space: pre-wrap;
 }
 
-.tree-line {
-  color: var(--gray);
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.5em + 0.5ch - 1px);
+  top: 0;
+  bottom: 0;
+  border-left: 2px solid var(--gray-border);
 }
 
-.tree-char {
-  color: var(--gray);
-  font-weight: 500;
+.timeline-item:last-child::before {
+  bottom: auto;
+  height: 0.85em;
+}
+
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  left: calc(-1.5em + 0.5ch - 1px);
+  top: 0.85em;
+  width: calc(1em - 0.5ch + 1px);
+  border-top: 2px solid var(--gray-border);
 }
 
 /* --- Project Grid --- */
@@ -212,6 +234,7 @@ section {
 
 .project-card:hover {
   border-color: var(--black);
+  color: var(--black);
 }
 
 .project-card .label {
@@ -346,7 +369,7 @@ section {
   margin-top: var(--spacing-md);
   margin-bottom: var(--spacing-md);
   padding: var(--spacing-lg) calc((100vw - 100%) / 2);
-  background: #f8f8f8;
+  background: var(--surface);
 }
 
 .project-section .img-caption {
@@ -402,6 +425,15 @@ section {
   color: var(--black);
 }
 
+/* --- Signature --- */
+
+.signature {
+  display: block;
+  width: 200px;
+  margin-top: var(--spacing-lg);
+  margin-left: auto;
+}
+
 /* --- Footer --- */
 
 footer {
@@ -429,6 +461,22 @@ footer a:hover {
 .footer-links {
   display: flex;
   gap: var(--spacing-md);
+}
+
+/* --- Dark mode --- */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --black: #fff;
+    --white: #000;
+    --gray: #999;
+    --gray-border: #333;
+    --surface: #111;
+  }
+
+  .signature {
+    filter: invert(1);
+  }
 }
 
 /* --- Responsive --- */
