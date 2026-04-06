@@ -19,7 +19,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <>
+    <div style={{ overflow: "hidden" }}>
       <main className="container">
         <div className="hero">
           <div className="hero-text">
@@ -177,7 +177,7 @@ export default function Home() {
       </main>
 
       <SiteFooter showSignature />
-    </>
+    </div>
   );
 }
 

@@ -427,7 +427,12 @@ function CoinScene({
         receiveShadow
       >
         <planeGeometry args={[50, 50]} />
-        <shadowMaterial ref={shadowMatRef} transparent opacity={0} />
+        <shadowMaterial
+          ref={shadowMatRef}
+          transparent
+          opacity={0}
+          depthWrite={false}
+        />
       </mesh>
     </>
   );
