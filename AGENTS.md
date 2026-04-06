@@ -49,11 +49,7 @@ When adding a new work entry or post, create a new route module, add it to `app/
 - `npm run dev` — start the React Router dev server
 - `npm run build` — generate the statically prerendered site into `build/client`
 - `npm run typecheck` — run React Router typegen and TypeScript checks
-- `npm run markdown` — generate `index.md` from the homepage content snapshot
 
 ## Notes
 
-- Keep page content in route components as JSX. This repo no longer uses a shared data-object layer for articles or project pages.
-- Keep global visual styling in `app/app.css`; there is no longer a live `css/style.css`.
-- The old imperative `js/metal.ts` setup is legacy and not used by the app. The active 3D portrait implementation lives in `app/components/coin-portrait.tsx`.
 - Deployable static output lives in `build/client`, which matches the current `wrangler.toml` configuration.
