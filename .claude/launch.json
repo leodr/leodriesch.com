@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "vite-dev",
-      "runtimeExecutable": "/Users/leo/.local/share/fnm/aliases/default/bin/node",
+      "runtimeExecutable": "/opt/homebrew/opt/node@24/bin/node",
       "runtimeArgs": ["node_modules/.bin/vite"],
       "port": 5173
     }

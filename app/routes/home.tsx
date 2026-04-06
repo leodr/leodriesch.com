@@ -24,10 +24,12 @@ export default function Home() {
         <div className="hero">
           <div className="hero-text">
             <p className="label">Leo Driesch</p>
-            <p className="hero-title">Somewhere between software and alchemy.</p>
+            <p className="hero-title">
+              Somewhere between software and alchemy.
+            </p>
             <p className="muted">
-              Software developer based in Munich. I started coding as a kid
-              from my mother&apos;s HTML book, built my first paid app in high
+              Software developer based in Munich. I started coding as a kid from
+              my mother&apos;s HTML book, built my first paid app in high
               school, and never stopped. Currently pursuing a Master&apos;s in
               Computer Science at TUM, focusing on machine learning. By day I
               write Angular at Rohde &amp; Schwarz, by night I explore
@@ -49,7 +51,9 @@ export default function Home() {
           <div className="timeline">
             <div className="timeline-item">
               <span className="bold">Rohde &amp; Schwarz</span>
-              <span className="muted">Angular development in distributed systems</span>
+              <span className="muted">
+                Angular development in distributed systems
+              </span>
               <span className="dim">Dec 2025 - now · Web Developer</span>
             </div>
             <div className="timeline-item">
@@ -85,13 +89,16 @@ export default function Home() {
               <span className="muted">B.Sc. Computer Science</span>
               <span className="muted">
                 <a href="/assets/thesis.pdf" target="_blank" rel="noreferrer">
-                  Thesis: Automating Bacterial Colony Segmentation with Deep Learning
+                  Thesis: Automating Bacterial Colony Segmentation with Deep
+                  Learning
                 </a>
               </span>
               <span className="dim">Oct 2021 - Aug 2024</span>
             </div>
             <div className="timeline-item">
-              <span className="bold">Westphalian University of Applied Sciences</span>
+              <span className="bold">
+                Westphalian University of Applied Sciences
+              </span>
               <span className="muted">
                 Dual B.Sc. Computer Science - Software Systems
               </span>
@@ -115,9 +122,9 @@ export default function Home() {
               <span className="label">Automation &amp; AI</span>
               <span className="bold">Bacterial Colony Detection</span>
               <span className="muted">
-                AI-powered solution for automated bacterial colony counting using
-                Faster R-CNN, developed in collaboration with FH M&uuml;nster.
-                92.9% precision, 4-second inference time.
+                AI-powered solution for automated bacterial colony counting
+                using Faster R-CNN, developed in collaboration with FH
+                M&uuml;nster. 92.9% precision, 4-second inference time.
               </span>
               <span
                 className="tech-stack"
@@ -201,7 +208,7 @@ export default function Home() {
 function PortraitFallback() {
   return (
     <div className="hero-portrait">
-      <img src="/assets/portrait.png" alt="Leo Driesch" />
+      <img src="/assets/portrait-cut.png" alt="Leo Driesch" />
     </div>
   );
 }

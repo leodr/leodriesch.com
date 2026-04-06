@@ -459,15 +459,18 @@ footer a:hover {
 
 .hero-portrait .coin-canvas {
   position: absolute !important;
-  top: -100px;
-  left: -40px;
-  width: calc(100% + 80px) !important;
-  height: calc(100% + 200px) !important;
+  top: 50%;
+  left: 50%;
+  width: 2000px !important;
+  height: 2000px !important;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .hero-portrait.coin-active {
   cursor: pointer;
 }
+
 
 .error-state {
   padding-top: var(--spacing-2xl);
