@@ -126,15 +126,6 @@ export default function Home() {
                 using Faster R-CNN, developed in collaboration with FH
                 M&uuml;nster. 92.9% precision, 4-second inference time.
               </span>
-              <span
-                className="tech-stack"
-                aria-label="Bacterial Colony Detection tech stack"
-              >
-                <span className="tech-tag">Faster R-CNN</span>
-                <span className="tech-tag">Python</span>
-                <span className="tech-tag">Computer Vision</span>
-                <span className="tech-tag">Annotation Tool</span>
-              </span>
             </a>
             <a href="/work/ahaus-taxi" className="project-card">
               <span className="label">Mobile App Development</span>
@@ -144,12 +135,6 @@ export default function Home() {
                 featuring real-time tracking, interactive maps, and an admin
                 dashboard.
               </span>
-              <span className="tech-stack" aria-label="ahaus.taxi tech stack">
-                <span className="tech-tag">Mobile App</span>
-                <span className="tech-tag">Maps</span>
-                <span className="tech-tag">Realtime Tracking</span>
-                <span className="tech-tag">Dashboard Design</span>
-              </span>
             </a>
             <a href="/work/if-web-portal" className="project-card">
               <span className="label">Web Development</span>
@@ -157,15 +142,6 @@ export default function Home() {
               <span className="muted">
                 Modern web portal for global design award submissions and jury
                 management, built in an agile team of eight.
-              </span>
-              <span
-                className="tech-stack"
-                aria-label="iF Design Award Web Portal tech stack"
-              >
-                <span className="tech-tag">Angular</span>
-                <span className="tech-tag">Java Spring</span>
-                <span className="tech-tag">Postgres</span>
-                <span className="tech-tag">Cypress</span>
               </span>
             </a>
           </div>
@@ -208,7 +184,7 @@ export default function Home() {
 function PortraitFallback() {
   return (
     <div className="hero-portrait">
-      <img src="/assets/portrait-cut.png" alt="Leo Driesch" />
+      {/* <img src="/assets/portrait-cut.png" alt="Leo Driesch" /> */}
     </div>
   );
 }

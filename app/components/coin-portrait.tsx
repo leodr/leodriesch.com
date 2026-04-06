@@ -30,7 +30,7 @@ const COIN_HALF_HEIGHT = COIN_THICKNESS / 2;
 const TABLE_HALF_DEPTH = 0.06;
 const TABLE_SURFACE_Z = -COIN_HALF_HEIGHT;
 const TABLE_CENTER_Z = TABLE_SURFACE_Z - TABLE_HALF_DEPTH;
-const CAMERA_POSITION = new THREE.Vector3(0, 0, 20);
+const CAMERA_POSITION = new THREE.Vector3(0, 0, 19);
 
 type CoinSceneProps = {
   textures: CoinTextures;
@@ -38,6 +38,7 @@ type CoinSceneProps = {
   pointer: PointerState;
   flipKey: number;
   onFlipChange: (isFlipping: boolean) => void;
+  onReady: () => void;
   interactionRef: {
     current: {
       camera: THREE.Camera | null;
@@ -49,7 +50,8 @@ type CoinSceneProps = {
 type FlipState = {
   startTime: number;
   torqueApplied: boolean;
-  yawSpin: number;
+  clickX: number;
+  clickY: number;
 };
 
 type SettleState = {
@@ -64,6 +66,7 @@ function CoinScene({
   pointer,
   flipKey,
   onFlipChange,
+  onReady,
   interactionRef,
 }: CoinSceneProps) {
   const { camera, gl, scene } = useThree();
@@ -77,10 +80,13 @@ function CoinScene({
   const rimMatRef = useRef<THREE.MeshPhysicalMaterial>(null);
   const faceFrontMatRef = useRef<THREE.MeshPhysicalMaterial>(null);
   const faceBackMatRef = useRef<THREE.MeshPhysicalMaterial>(null);
+  const shadowMatRef = useRef<THREE.ShadowMaterial>(null);
+  const shadowLightRef = useRef<THREE.PointLight>(null);
 
   const tiltRef = useRef({ x: 0, y: 0 });
   const rollRef = useRef(0);
-  const metalnessRef = useRef(0);
+  const metalnessRef = useRef(1);
+  const lastActiveTimeRef = useRef(-Infinity);
   const flipStateRef = useRef<FlipState | null>(null);
   const settleStateRef = useRef<SettleState | null>(null);
   const appliedFlipKeyRef = useRef(0);
@@ -92,9 +98,12 @@ function CoinScene({
     camera.position.copy(CAMERA_POSITION);
     camera.lookAt(0, 0, 0);
 
+    lastActiveTimeRef.current = performance.now();
+
     const pmremGenerator = new THREE.PMREMGenerator(gl);
     const envMap = pmremGenerator.fromScene(new RoomEnvironment()).texture;
     scene.environment = envMap;
+    onReady();
 
     return () => {
       if (scene.environment === envMap) {
@@ -114,7 +123,6 @@ function CoinScene({
 
     const currentRotation = quat(body.rotation());
     const currentPosition = vec3(body.translation());
-    const yawSpin = THREE.MathUtils.clamp(pointer.x * 0.28, -0.18, 0.18);
 
     appliedFlipKeyRef.current = flipKey;
     body.setEnabledTranslations(true, true, true, true);
@@ -128,10 +136,11 @@ function CoinScene({
     flipStateRef.current = {
       startTime: performance.now(),
       torqueApplied: false,
-      yawSpin,
+      clickX: pointer.x,
+      clickY: pointer.y,
     };
     onFlipChange(true);
-  }, [flipKey, onFlipChange, pointer.x, rapier]);
+  }, [flipKey, onFlipChange, pointer.x, pointer.y, rapier]);
 
   useEffect(() => {
     interactionRef.current.camera = camera;
@@ -165,12 +174,17 @@ function CoinScene({
     }
 
     const now = performance.now();
-    const targetMetal =
-      hovered || flipStateRef.current || settleStateRef.current ? 1 : 0;
+    const isActive = hovered || flipStateRef.current || settleStateRef.current;
+    if (isActive) {
+      lastActiveTimeRef.current = now;
+    }
+    const timeSinceActive = now - lastActiveTimeRef.current;
+    const cooldownElapsed = timeSinceActive > 1000;
+    const targetMetal = isActive || !cooldownElapsed ? 1 : 0;
     const coinPosition = vec3(coinBody.translation());
     const coinRotation = quat(coinBody.rotation());
 
-    metalnessRef.current += (targetMetal - metalnessRef.current) * 0.06;
+    metalnessRef.current += (targetMetal - metalnessRef.current) * 0.12;
 
     portraitMat.opacity = 1 - metalnessRef.current;
     portraitBackMat.opacity = 1 - metalnessRef.current;
@@ -178,17 +192,40 @@ function CoinScene({
     rimMat.opacity = metalnessRef.current;
     faceFrontMat.opacity = metalnessRef.current;
     faceBackMat.opacity = metalnessRef.current;
+    if (shadowMatRef.current) {
+      const shadowFade = isActive ? 1 : Math.max(0, 1 - timeSinceActive / 500);
+      shadowMatRef.current.opacity = metalnessRef.current * 0.2 * shadowFade;
+    }
+    if (shadowLightRef.current) {
+      shadowLightRef.current.shadow.radius = Math.min(
+        40,
+        8 + coinPosition.z * 6,
+      );
+    }
 
     if (flipStateRef.current) {
       const elapsed = now - flipStateRef.current.startTime;
       const depthVelocity = coinBody.linvel().z;
       if (!flipStateRef.current.torqueApplied && elapsed > 120) {
-        coinBody.applyTorqueImpulse(
-          {
-            x: 2.6 + Math.random() * 0.3,
-            y: flipStateRef.current.yawSpin,
-            z: 0,
-          },
+        const { clickX, clickY } = flipStateRef.current;
+        const dist = Math.sqrt(clickX * clickX + clickY * clickY);
+        const flipStrength = 2.6 + Math.random() * 0.3;
+
+        // Torque axis via r × F: click position crossed with upward flick
+        // r = (clickX, -clickY, 0) in world coords, F = (0, 0, 1)
+        let torqueX: number;
+        let torqueY: number;
+        if (dist > 0.05) {
+          torqueX = (-clickY / dist) * flipStrength;
+          torqueY = (-clickX / dist) * flipStrength;
+        } else {
+          torqueX = flipStrength;
+          torqueY = 0;
+        }
+
+        coinBody.applyTorqueImpulse({ x: torqueX, y: torqueY, z: 0 }, true);
+        coinBody.applyImpulse(
+          { x: -clickX * 0.5, y: clickY * 0.5, z: 2.0 },
           true,
         );
         flipStateRef.current.torqueApplied = true;
@@ -216,7 +253,7 @@ function CoinScene({
         coinBody.setAngvel({ x: 0, y: 0, z: 0 }, true);
         settleStateRef.current = {
           startTime: now,
-          targetPosition: new THREE.Vector3(coinPosition.x, coinPosition.y, 0),
+          targetPosition: new THREE.Vector3(0, 0, 1),
           targetRotation,
         };
         flipStateRef.current = null;
@@ -246,10 +283,13 @@ function CoinScene({
     } else if (
       coinBody.bodyType() === rapier.RigidBodyType.KinematicPositionBased
     ) {
-      tiltRef.current.x += (-pointer.y * 0.14 - tiltRef.current.x) * 0.08;
-      tiltRef.current.y += (pointer.x * 0.14 - tiltRef.current.y) * 0.08;
+      const tiltStrength = hovered ? 0.28 : 0.14;
+      tiltRef.current.x +=
+        (pointer.y * tiltStrength - tiltRef.current.x) * 0.08;
+      tiltRef.current.y +=
+        (pointer.x * tiltStrength - tiltRef.current.y) * 0.08;
       rollRef.current = hovered
-        ? Math.sin(now * 0.0015) * 0.01
+        ? Math.sin(now * 0.0015) * 0.03
         : rollRef.current * 0.92;
 
       const idleRotation = new THREE.Euler(
@@ -259,7 +299,11 @@ function CoinScene({
       );
       const idleQuaternion = new THREE.Quaternion().setFromEuler(idleRotation);
       const nextQuaternion = coinRotation.clone().slerp(idleQuaternion, 0.14);
-      const nextPosition = coinPosition.lerp(new THREE.Vector3(0, 0, 0), 0.16);
+      const targetZ = hovered ? 1 : 0;
+      const nextPosition = coinPosition.lerp(
+        new THREE.Vector3(0, 0, targetZ),
+        0.1,
+      );
 
       coinBody.setNextKinematicRotation(nextQuaternion);
       coinBody.setNextKinematicTranslation(nextPosition);
@@ -286,7 +330,7 @@ function CoinScene({
           restitution={0.05}
           friction={0.9}
         />
-        <mesh ref={coinMeshRef} rotation={[Math.PI / 2, 0, 0]}>
+        <mesh ref={coinMeshRef} rotation={[Math.PI / 2, 0, 0]} castShadow>
           <cylinderGeometry
             args={[COIN_RADIUS, COIN_RADIUS, COIN_THICKNESS, 64, 1, false]}
           />
@@ -294,7 +338,7 @@ function CoinScene({
             ref={rimMatRef}
             attach="material-0"
             transparent
-            opacity={0}
+            opacity={1}
             metalness={1}
             roughness={0.25}
             color="#ffffff"
@@ -304,7 +348,7 @@ function CoinScene({
             ref={faceFrontMatRef}
             attach="material-1"
             transparent
-            opacity={0}
+            opacity={1}
             metalness={1}
             roughness={0.35}
             color="#ffffff"
@@ -317,7 +361,7 @@ function CoinScene({
             ref={faceBackMatRef}
             attach="material-2"
             transparent
-            opacity={0}
+            opacity={1}
             metalness={1}
             roughness={0.35}
             color="#ffffff"
@@ -342,7 +386,7 @@ function CoinScene({
               attach="material-1"
               map={textures.portrait}
               transparent
-              opacity={1}
+              opacity={0}
               depthWrite={false}
             />
             <meshBasicMaterial
@@ -350,7 +394,7 @@ function CoinScene({
               attach="material-2"
               map={textures.portrait}
               transparent
-              opacity={1}
+              opacity={0}
               depthWrite={false}
             />
           </mesh>
@@ -359,10 +403,32 @@ function CoinScene({
 
       <RigidBody type="fixed" colliders={false}>
         <CuboidCollider
-          args={[5, 5, TABLE_HALF_DEPTH]}
+          args={[50, 50, TABLE_HALF_DEPTH]}
           position={[0, 0, TABLE_CENTER_Z]}
         />
       </RigidBody>
+
+      <pointLight
+        ref={shadowLightRef}
+        position={[-2, 2, 18]}
+        intensity={80}
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+        shadow-camera-near={10}
+        shadow-camera-far={22}
+        shadow-radius={20}
+        shadow-blurSamples={32}
+      />
+
+      <mesh
+        position={[0, 0, TABLE_SURFACE_Z]}
+        rotation={[0, 0, 0]}
+        receiveShadow
+      >
+        <planeGeometry args={[50, 50]} />
+        <shadowMaterial ref={shadowMatRef} transparent opacity={0} />
+      </mesh>
     </>
   );
 }
@@ -370,6 +436,7 @@ function CoinScene({
 export function CoinPortrait() {
   const [hydrated, setHydrated] = useState(false);
   const [textures, setTextures] = useState<CoinTextures | null>(null);
+  const [sceneReady, setSceneReady] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [isFlipping, setIsFlipping] = useState(false);
   const [pointer, setPointer] = useState<PointerState>({ x: 0, y: 0 });
@@ -425,6 +492,7 @@ export function CoinPortrait() {
     }
 
     const timer = setTimeout(() => {
+      setPointer({ x: 0.05, y: 1 });
       setFlipKey((current) => current + 1);
     }, 400);
 
@@ -467,7 +535,7 @@ export function CoinPortrait() {
 
   return (
     <div
-      className={`hero-portrait${textures ? " coin-ready" : ""}${hovered || isFlipping ? " coin-active" : ""}`}
+      className={`hero-portrait${sceneReady ? " coin-ready" : ""}${hovered || isFlipping ? " coin-active" : ""}`}
       onMouseLeave={() => {
         setHovered(false);
         setPointer({ x: 0, y: 0 });
@@ -502,6 +570,7 @@ export function CoinPortrait() {
           className="coin-canvas"
           dpr={[1, 2]}
           flat
+          shadows
           camera={{
             fov: 45,
             position: CAMERA_POSITION.toArray(),
@@ -520,6 +589,7 @@ export function CoinPortrait() {
                 pointer={pointer}
                 flipKey={flipKey}
                 onFlipChange={setIsFlipping}
+                onReady={() => setSceneReady(true)}
                 interactionRef={interactionRef}
               />
             </Physics>

@@ -157,6 +157,7 @@ section {
 
 .hero-portrait img {
   width: 100%;
+  visibility: hidden;
 }
 
 .hero-portrait::after {
@@ -168,6 +169,7 @@ section {
   height: 60px;
   background: linear-gradient(to bottom, transparent, var(--white));
   pointer-events: none;
+  display: none;
 }
 
 .timeline {
@@ -237,21 +239,6 @@ section {
 .project-card .label,
 .project-card .bold {
   margin-bottom: var(--spacing-xs);
-}
-
-.tech-stack {
-  margin-top: var(--spacing-sm);
-  display: flex;
-  gap: var(--spacing-xs);
-  flex-wrap: wrap;
-}
-
-.tech-tag {
-  color: var(--gray);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border: 1px solid var(--gray-border);
-  padding: 0.1rem 0.4rem;
 }
 
 .post-list {
@@ -465,6 +452,16 @@ footer a:hover {
   height: 2000px !important;
   transform: translate(-50%, -50%);
   pointer-events: none;
+  opacity: 0;
+}
+
+.hero-portrait.coin-ready .coin-canvas {
+  animation: coin-canvas-fade-in 0.6s ease forwards;
+}
+
+@keyframes coin-canvas-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .hero-portrait.coin-active {
