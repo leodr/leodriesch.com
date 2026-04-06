@@ -194,13 +194,17 @@ function CoinScene({
     faceBackMat.opacity = metalnessRef.current;
     if (shadowMatRef.current) {
       const shadowFade = isActive ? 1 : Math.max(0, 1 - timeSinceActive / 500);
-      shadowMatRef.current.opacity = metalnessRef.current * 0.2 * shadowFade;
+      const metal = metalnessRef.current;
+      // Idle fade only applies in portrait mode; metallic look keeps a visible contact shadow.
+      const shadowOpacityFactor = metal > 0.5 ? 1 : shadowFade;
+      shadowMatRef.current.opacity = metal * 0.2 * shadowOpacityFactor;
     }
     if (shadowLightRef.current) {
-      shadowLightRef.current.shadow.radius = Math.min(
-        40,
-        8 + coinPosition.z * 6,
-      );
+      const baseRadius = Math.min(40, 8 + coinPosition.z * 6);
+      // When the coin sits flat (z≈0) the cast shadow is very thin; keep some softness so it reads.
+      const metal = metalnessRef.current;
+      shadowLightRef.current.shadow.radius =
+        metal > 0.5 ? Math.max(18, baseRadius) : baseRadius;
     }
 
     if (flipStateRef.current) {
