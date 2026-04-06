@@ -270,11 +270,6 @@ function CoinScene({
 
   return (
     <>
-      <ambientLight intensity={0.9} />
-      <directionalLight intensity={0.9} position={[1.1, 1.3, 4.8]} />
-      <directionalLight intensity={0.5} position={[-1.5, 1, 3]} />
-      <directionalLight intensity={0.3} position={[0, -1.5, 2]} />
-
       <RigidBody
         ref={coinBodyRef}
         type="kinematicPosition"
