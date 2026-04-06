@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vite-dev",
+      "runtimeExecutable": "/Users/leo/.local/share/fnm/aliases/default/bin/node",
+      "runtimeArgs": ["node_modules/.bin/vite"],
+      "port": 5173
+    }
+  ]
+}
