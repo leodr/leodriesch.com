@@ -78,6 +78,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+.react-router/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
@@ -173,5 +174,6 @@ dist
 
 # SvelteKit build / generate output
 .svelte-kit
+build/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,node

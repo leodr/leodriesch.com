@@ -1,15 +1,29 @@
 {
+  "name": "leodriesch.com",
+  "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
-  },
-  "devDependencies": {
-    "linkedom": "^0.18.12",
-    "vite": "^8.0.3"
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "three": "^0.183.2"
+    "@react-router/node": "7.14.0",
+    "@react-three/fiber": "^9.4.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router": "7.14.0",
+    "three": "^0.183.2",
+    "isbot": "^5"
+  },
+  "devDependencies": {
+    "@react-router/dev": "7.14.0",
+    "@types/node": "^22.18.6",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@types/three": "^0.183.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.3"
   }
 }
