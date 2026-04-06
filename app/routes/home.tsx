@@ -25,7 +25,7 @@ export default function Home() {
           <div className="hero-text">
             <p className="label">Leo Driesch</p>
             <p className="hero-title">
-              Somewhere between software and alchemy.
+              Somewhere between engineering and alchemy
             </p>
             <p className="muted">
               Software developer based in Munich. I started coding as a kid from

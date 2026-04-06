@@ -47,6 +47,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+main {
+  overflow: hidden;
+}
+
 h1,
 h2,
 h3,
@@ -153,6 +157,13 @@ section {
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-portrait-hit-area {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .hero-portrait img {
@@ -451,6 +462,7 @@ footer a:hover {
   width: 2000px !important;
   height: 2000px !important;
   transform: translate(-50%, -50%);
+  z-index: 2;
   pointer-events: none;
   opacity: 0;
 }
@@ -464,7 +476,7 @@ footer a:hover {
   to { opacity: 1; }
 }
 
-.hero-portrait.coin-active {
+.hero-portrait.coin-active .hero-portrait-hit-area {
   cursor: pointer;
 }
 

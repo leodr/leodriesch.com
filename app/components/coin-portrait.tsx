@@ -536,38 +536,43 @@ export function CoinPortrait() {
   return (
     <div
       className={`hero-portrait${sceneReady ? " coin-ready" : ""}${hovered || isFlipping ? " coin-active" : ""}`}
-      onMouseLeave={() => {
-        setHovered(false);
-        setPointer({ x: 0, y: 0 });
-      }}
-      onMouseMove={(event) => {
-        const rect = event.currentTarget.getBoundingClientRect();
-        const hoveringCoin = textures
-          ? hitCoin(event.clientX, event.clientY, rect)
-          : false;
-        const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
-
-        setHovered(hoveringCoin);
-        setPointer(hoveringCoin ? { x, y } : { x: 0, y: 0 });
-      }}
-      onClick={(event) => {
-        if (!hovered || isFlipping || !textures) {
-          return;
-        }
-
-        const rect = event.currentTarget.getBoundingClientRect();
-        if (!hitCoin(event.clientX, event.clientY, rect)) {
-          return;
-        }
-
-        setFlipKey((current) => current + 1);
-      }}
     >
-      <img src="/assets/portrait-cut.png" alt="Leo Driesch" />
+      <div
+        className="hero-portrait-hit-area"
+        onMouseLeave={() => {
+          setHovered(false);
+          setPointer({ x: 0, y: 0 });
+        }}
+        onMouseMove={(event) => {
+          const rect = event.currentTarget.getBoundingClientRect();
+          const hoveringCoin = textures
+            ? hitCoin(event.clientX, event.clientY, rect)
+            : false;
+          const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+          const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+
+          setHovered(hoveringCoin);
+          setPointer(hoveringCoin ? { x, y } : { x: 0, y: 0 });
+        }}
+        onClick={(event) => {
+          if (!hovered || isFlipping || !textures) {
+            return;
+          }
+
+          const rect = event.currentTarget.getBoundingClientRect();
+          if (!hitCoin(event.clientX, event.clientY, rect)) {
+            return;
+          }
+
+          setFlipKey((current) => current + 1);
+        }}
+      >
+        <img src="/assets/portrait-cut.png" alt="Leo Driesch" />
+      </div>
       {hydrated && textures ? (
         <Canvas
           className="coin-canvas"
+          style={{ pointerEvents: "none" }}
           dpr={[1, 2]}
           flat
           shadows
